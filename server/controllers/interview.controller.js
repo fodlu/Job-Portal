@@ -271,3 +271,19 @@ export const updateInterviewRole = async (req, res) => {
         handleError(res, err);
     }
 };
+
+// to delete a role
+export const deleteRole = async (req, res) => {
+    try {
+        const {roleId} = req.params;
+        await interviewRoleModel.findOneAndDelete(roleId)
+        await roleQuestionModel.deleteMany({roleId})
+
+        res.status(200).json({
+            success: true,
+            message: "Role Deleted Successfully"
+        })
+    } catch (err) {
+        handleError(res, err)
+    }
+}

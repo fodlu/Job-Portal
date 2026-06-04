@@ -10,6 +10,9 @@ import userRouter from './routes/user.route.js';
 import companyRouter from './routes/company.route.js';
 import jobRouter from './routes/job.route.js';
 import applicationRouter from './routes/application.route.js';
+import interviewRouter from './routes/interview.route.js';
+import saveRouter from './routes/saved.route.js';
+import inquiryRouter from './routes/inquiry.route.js';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -21,7 +24,10 @@ connectDb()
 
 // MIDDLEWARES
 app.use(express.json())
-app.use(cors)
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    credentials: true
+}))
 
 app.use('/uploads', express.static("uploads"))
 
@@ -32,6 +38,9 @@ app.use('/api/user', userRouter)
 app.use('/api/company', companyRouter)
 app.use('/api/job', jobRouter)
 app.use('/api/application', applicationRouter)
+app.use('/api/interview', interviewRouter)
+app.use('/api/saved', saveRouter);
+app.use('/api/inquiry', inquiryRouter)
 
 app.listen(PORT, ()=> {
     console.log(`Server is started on http://localhost:${PORT}`)

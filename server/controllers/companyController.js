@@ -58,7 +58,7 @@ export const addCompany = async (req, res) => {
 }
 
 // delete the company
-export const deleteCompany = async (req, res) => {
+export const deleteInterviewCompany = async (req, res) => {
     try {
         const company = await companyModel.findById(req.params.id)
         if(!company) {
