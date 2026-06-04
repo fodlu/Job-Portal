@@ -1,5 +1,5 @@
 import inquiryModel from "../models/inquiry.model.js";
-import { sendAdminInquiryEmail } from "../utils/emailService";
+import { sendAdminInquiryEmail } from "../utils/emailService.js";
 
 // to submit a query
 export const submitInquiry = async (req, res ) => {

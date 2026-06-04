@@ -1,4 +1,4 @@
-import userModel from "../models/user.model";
+import userModel from "../models/user.model.js";
 
 // to toggle save job
 export const toggleSaveJob = async (req, res) => {
