@@ -6,7 +6,7 @@ import { upload } from '../middlewares/uploadMiddleware.js';
 const userRouter = express.Router()
 
 userRouter.get('/profile', authMiddleware, getProfile);
-userRouter.get('/resum/:id', getResume);
+userRouter.get('/resume/:id', getResume);
 userRouter.put('/profile', authMiddleware, authorize("user"), upload.single("resume"), updateProfile)
 
 export default userRouter

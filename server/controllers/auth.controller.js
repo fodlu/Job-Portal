@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 // to register a user
 export const register = async (req, res) => {
     try {
-        const [name, email, password, role] = req.body;
+        const {name, email, password, role} = req.body;
         const userExist = await userModel.findOne({email});
 
         if(userExist){
@@ -15,6 +15,7 @@ export const register = async (req, res) => {
                 message: "User already exists"
             })
         }
+
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const userRole = role || 'user'
@@ -61,21 +62,21 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
             const {email, password} = req.body;
-        const user = await userModel.findOne({email});
+            const user = await userModel.findOne({email});
 
-        if(!user){
-            return res.status(400).json({
-                success: false,
-                message: "Invalid username or password"
-            });
-        }
+            // if(!user){
+            //     return res.status(400).json({
+            //         success: false,
+            //         message: "Invalid username or password"
+            //     });
+            // }
 
-        if(!user.isVerified){
-            return res.status(400).json({
-                success: false,
-                message: "Please verify your email before logging in."
-            })
-        }
+            if(!user.isVerified){
+                return res.status(400).json({
+                    success: false,
+                    message: "Please verify your email before logging in."
+                })
+            }
 
         const isMatch = await bcrypt.compare(user.password, password);
 

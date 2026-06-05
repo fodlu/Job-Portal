@@ -4,8 +4,8 @@ import { sendAdminInquiryEmail } from "../utils/emailService.js";
 // to submit a query
 export const submitInquiry = async (req, res ) => {
     try {
-        const {fullName, email, phone, subject, message} = req.body();
-        if(!fullName || !email || subject || message) {
+        const {fullName, email, phone, subject, message} = req.body;
+        if(!fullName || !email || !subject || !message) {
             return res.status(400).json({
                 success: false,
                 message: "Required fields can not be empty!"

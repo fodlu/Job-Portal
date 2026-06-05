@@ -20,8 +20,6 @@ const app = express();
 // DB
 connectDb()
 
-// 1:40:00 on youtube
-
 // MIDDLEWARES
 app.use(express.json())
 app.use(cors({
