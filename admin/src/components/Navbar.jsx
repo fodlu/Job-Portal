@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { navbarStyles as s } from '../assets/dummyStyles'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Briefcase, Building, ChevronDown, Home, List, UserCheck } from 'lucide-react'
+import { Briefcase, Building, ChevronDown, Home, List, LogIn, LogOut, Menu, User, UserCheck, X } from 'lucide-react'
 import logoFallback from '../assets/logo.png'
 
 const NAV_ITEMS = [
@@ -334,9 +334,127 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                             </ul>
                         </div>
                     </div>
+
+                    {/* Right side */}
+                    <div className={s.rightActions}>
+                        <div className={s.desktopAuth}>
+                            {user ?
+                                (<div className={s.userMenuContainer}
+                                ref={userMenuContainerRef}
+                                onMouseEnter={openUserMenu} onMouseLeave={()=> startCloseTimer(250)}>
+                                    <button onClick={()=>{
+                                        if(closeTimeoutRef.current) {
+                                            clearTimeout(closeTimeoutRef.current);
+                                            closeTimeoutRef.current = null
+                                        }
+                                        setUserMenuOpen((s)=> !s)
+                                    }} className={s.userMenuButton}>
+                                        <User className = {s.userMenuButton} />
+                                        <span className={s.userName}>{user?.name}</span>
+                                        <ChevronDown className={s.userDropdownIcon} />
+                                    </button>
+
+                                    <div className={`${s.userDropdown} ${userMenuOpen ? s.userDropdownVisible : s.userDropdownHidden}`}>
+                                        <div className={`${s.dropdownContent} ${userMenuOpen ? 'animate-border' : 'bg-transparent'}`} style={{
+                                            background: userMenuOpen ? undefined : 'transparent'
+                                        }}>
+                                            <div className={s.userDropdownInner}>
+                                                <button onClick={handleLogout} className={s.logoutButton}>
+                                                    <LogOut className={s.logoutIcon} />
+                                                    <span>Logout</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <button className={s.loginButton} onClick={()=> handleNavigate('login')}>
+                                    <span className={s.loginButtonOverlay}></span>
+                                    <span className={s.loginButtonContent}>
+                                        <LogIn className={s.loginIcon} />
+                                        <span>Login</span>
+                                    </span>
+                                </button>
+                            )}
+                        </div>
+
+                        {/* toggle */}
+                        <button onClick={()=>setMobileMenuOpen(!mobileMenuOpen)} className={s.mobileMenuButton}>
+                            {mobileMenuOpen ? (
+                                <X className={s.mobileMenuIcon} />
+                            ): (
+                                <Menu className={s.mobileMenuIcon} />
+                            )
+                            }
+                        </button>
+                    </div>
                 </div>
+
+                {/* for mobile navogation */}
+                {mobileMenuOpen && (
+                    <div className={s.mobileMenu}>
+                        <div className={s.mobileMenuContent}>
+                            {NAV_ITEMS.map((item) => {
+                                const Icon = item.Icon;
+                                const isActiveParent = active === item.key;
+                                return (
+                                    <div className={s.mobileNavItem} key={item.key}>
+                                        <button onClick={()=> handleNavigate(item.key)} className={`${s.mobilena} ${
+                                            isActiveParent ? s.mobileNavButtonActive : s.mobileNavButtonInactive
+                                        }`}>
+                                            <Icon className={s.mobileNavIcon} />
+                                            <span className={s.mobileNavText}> {item.label}</span>
+                                        </button>
+
+                                        {item.dropdown && ((
+                                            <div className={s.mobileDropdown}>
+                                                {item.dropdown.map((sub) => {
+                                                    const isActiveSub = active ===sub.key;
+
+                                                    return (
+                                                        <button className={isActiveSub
+                                                            ? s.mobileDropdownItemActive
+                                                            : s.mobileDropdownItemInactive
+                                                        } key={sub.key} onClick={()=> handleNavigate(sub.key)}>
+                                                            {sub.label}
+                                                        </button>
+                                                    )
+                                                })}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )
+                            })}
+
+                            {/* mobile user */}
+                            {user ? (
+                                <>
+                                    <div className={s.mobileUserInfo}>
+                                        <span className={s.mobileUserInfoContent}>
+                                            <User className={s.userIcon} />
+                                            <span className={s.userName}>{user.name}</span>
+                                        </span>
+                                    </div>
+                                    <button onClick={handleLogout} className={s.mobileLogoutButton}>
+                                        <LogOut className={s.mobileNavItem} />
+                                        <span>Logout</span>
+                                    </button>
+                                </>
+                            ) : (
+                                <div className={s.mobileLoginContainer}>
+                                    <button onClick={()=> handleNavigate("login")} className={s.mobileLoginButton}>
+                                        <LogIn className={s.mobileNavIcon} />
+                                        <span>Login</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
         </nav>
+
+<style>{s.animations}</style>
     </header>
   )
 }
