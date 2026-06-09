@@ -232,8 +232,7 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                                         item.dropdown.some((sub) => active === sub.key));
 
                                     return (
-                                        <div key={item.key}>
-                                            <React.Fragment>
+                                        <React.Fragment key={item.key}>
                                             <li className={s.navItem}
                                             onMouseEnter={()=>
                                                 item.dropdown && isLGOnly && openNavDropdown(item.key)
@@ -310,7 +309,7 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                                                 return (
                                                     <li className={s.subNavItem} key={sub.key}>
                                                         <div className={s.navItemWrapper}
-                                                            ref={(el) => {itemRefs.current[sub.key] = el}}>
+                                                            ref={(el) => {itemRefs.current[sub.key] = el}} className={s.navItemWrapper}>
                                                                 <button onClick={()=> handleNavigate(sub.key)}
                                                                     className={`${s.subNavButton} ${
                                                                         isActiveSub ?
@@ -327,9 +326,9 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                                                 )
                                             })
                                             }
-                                            </React.Fragment>
-                                        </div>
+                                        </React.Fragment>
                                     )
+
                                 })}
                             </ul>
                         </div>
@@ -338,8 +337,8 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                     {/* Right side */}
                     <div className={s.rightActions}>
                         <div className={s.desktopAuth}>
-                            {user ?
-                                (<div className={s.userMenuContainer}
+                            {user ? (
+                                <div className={s.userMenuContainer}
                                 ref={userMenuContainerRef}
                                 onMouseEnter={openUserMenu} onMouseLeave={()=> startCloseTimer(250)}>
                                     <button onClick={()=>{
@@ -350,7 +349,7 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                                         setUserMenuOpen((s)=> !s)
                                     }} className={s.userMenuButton}>
                                         <User className = {s.userMenuButton} />
-                                        <span className={s.userName}>{user?.name}</span>
+                                        <span className={s.userName}>{user.name}</span>
                                         <ChevronDown className={s.userDropdownIcon} />
                                     </button>
 
@@ -399,7 +398,7 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                                 const isActiveParent = active === item.key;
                                 return (
                                     <div className={s.mobileNavItem} key={item.key}>
-                                        <button onClick={()=> handleNavigate(item.key)} className={`${s.mobilena} ${
+                                        <button onClick={()=> handleNavigate(item.key)} className={`${s.mobileNavButton} ${
                                             isActiveParent ? s.mobileNavButtonActive : s.mobileNavButtonInactive
                                         }`}>
                                             <Icon className={s.mobileNavIcon} />
@@ -409,13 +408,12 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
                                         {item.dropdown && ((
                                             <div className={s.mobileDropdown}>
                                                 {item.dropdown.map((sub) => {
-                                                    const isActiveSub = active ===sub.key;
+                                                    const isActiveSub = active === sub.key;
 
                                                     return (
-                                                        <button className={isActiveSub
+                                                        <button className={`${s.mobileDropdownItem} ${isActiveSub
                                                             ? s.mobileDropdownItemActive
-                                                            : s.mobileDropdownItemInactive
-                                                        } key={sub.key} onClick={()=> handleNavigate(sub.key)}>
+                                                            : s.mobileDropdownItemInactive}`} key={sub.key} onClick={()=> handleNavigate(sub.key)}>
                                                             {sub.label}
                                                         </button>
                                                     )
