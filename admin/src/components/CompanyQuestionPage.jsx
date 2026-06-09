@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {companyQuestionPageStyles as s} from '../assets/dummyStyles'
 import axios from 'axios'
 import { Building2, CheckCircle, CircleDashed, Download, FileText, HelpCircle, Lightbulb, Loader2, Upload, X, XCircle } from 'lucide-react';
