@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {companyQuestionPageStyles as s} from '../assets/dummyStyles'
 import axios from 'axios'
-import { Building2, CheckCircle, FileText, Upload, X, XCircle } from 'lucide-react';
+import { Building2, CheckCircle, CircleDashed, Download, FileText, HelpCircle, Lightbulb, Loader2, Upload, X, XCircle } from 'lucide-react';
 
 // helpers function
 const parseCountString = (str) => {
@@ -140,7 +140,7 @@ const CompanyQuestionPage = () => {
         if(file) {
             setLogoFile(file);
             const reader = new FileReader();
-            reader.onloadend = () => setLogoFile(reader.result);
+            reader.onloadend = () => setLogoPreview(reader.result);
             reader.readAsDataURL(file)
         } else {
             setLogoFile(null)
@@ -402,13 +402,160 @@ const CompanyQuestionPage = () => {
                                     <Upload size={16} />
                                     <span>Choose Logo</span>
                                 </label>
-                                <input type="file" id="logo-upload" accept='image/*' onChange={handleLogoChange}/>
+                                <input type="file" id="logo-upload" accept='image/*' onChange={handleLogoChange} className={s.fileInputHidden} />
+
+                                <p className={s.logoHint}>
+                                    PNG, JPG, GIF, up to 2mb(optional)
+                                </p>
                             </div>
                         </div>
+
+                        {/* csv upload */}
+                        <div className={s.colSpan2Alt}>
+                            <label className={s.label}>Upload CSV (Question, Answer, Keypoints, PostDate optional {" "})</label>
+
+                            <div className={s.csvUploadContainer}>
+                                <div className="flex-1">
+                                    <label htmlFor="csv-upload" className={s.csvUploadLabel}>
+                                        <Upload size={16} />
+                                        <span>Choose CSV</span>
+                                    </label>
+
+                                    <input type="file" id="csv-upload" accept='.csv' onChange={handleCsvChange} className={s.fileInputHidden} />
+
+                                    {csvFile && (
+                                        <span className={s.csvFileName}>{csvFile.name}</span>
+                                    )}
+                                </div>
+
+                                {parsedQuestions.length > 0 && (
+                                    <div className={s.csvLoadedBadge}>
+                                        <CheckCircle size={14} />
+                                        {parsedQuestions.length} questions loaded
+                                    </div>
+                                )}
+                            </div>
+
+                            {errors.csvFile && (
+                                <p className={s.errorText}>{errors.csvFile}</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* submit button */}
+                    <div className={s.submitSection}>
+                        <button type="submit" disabled={isSubmitting} className={`${s.submitBtn} ${isSubmitting ? s.submitBtnDisabled : ''}`}>
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className={s.spinner} />
+                                    Adding...
+                                </>
+                            ) : (
+                                "Add Interview Questions"
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>
+
+            {/* Display the parsed questions */}
+            {parsedQuestions.length > 0 && (
+                <div className={s.questionsSection}>
+                    <h2 className={s.sectionTitle}>
+                        <Download size={20} className={s.sectionTitleIcon} />
+                        Uploaded Questions ({parsedQuestions.length})
+                    </h2>
+
+                    <div className={s.questionsGrid}>
+                        {parsedQuestions.map((que, index) => (
+                            <div key={index} className={s.questionCard} style={{
+                                animationDelay: `${(index * 50)}ms`
+                            }}>
+                                <div className={s.cardInner}>
+                                    <div className={s.cardIcon}>
+                                        <HelpCircle size={20} />
+                                    </div>
+                                    <div className={s.cardContent}>
+                                        <div className={s.cardHeader}>
+                                            <p className={s.cardQuestion}>{que.question || (
+                                                <span className={s.cardQuestionMissing}>No question text</span>
+                                            )}</p>
+
+                                            <span className={s.cardDateBadge}>
+                                                {formatDatePretty(que.postDate)}
+                                            </span>
+                                        </div>
+
+                                        <div className={s.answerSection}>
+                                            <div className={s.answerLabel}>
+                                                <Lightbulb size={14} className={s.answerIcon} />
+                                                Answer
+                                            </div>
+                                            <div className={s.answerContent}>
+                                                {que.answer || (
+                                                    <span className={s.cardQuestionMissing}>
+                                                        No answer provided
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {que.keyPoints && que.keyPoints.length > 0 && (
+                                            <div className={s.keyPointsSection}>
+                                                <div className={s.keyPointsLabel}>
+                                                    <CircleDashed size={12} />
+                                                    Key Points
+                                                </div>
+
+                                                <ul className={s.keyPointsList}>
+                                                    {que.keyPoints.map((kp, index) => (
+                                                        <li key={index} className={s.keyPointItem}>
+                                                            <CircleDashed size={14} className={s.keyPointIcon} />
+                                                            <span>{kp}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
+
+<style>{`
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .animate-slideIn {
+          animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes cardFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-card {
+          animation: cardFadeIn 0.4s ease-out forwards;
+          opacity: 0;
+        }
+      `}</style>
+
     </div>
     )
 }
