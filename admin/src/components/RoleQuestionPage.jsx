@@ -1,7 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import {roleQuestionPageStyles as s} from '../assets/dummyStyles'
-import { AlertCircle, Briefcase, Calendar, CheckCircle, FileText, Hash, Image, Loader2, Upload } from 'lucide-react';
-import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { roleQuestionPageStyles as s } from "../assets/dummyStyles";
+import {
+  AlertCircle,
+  Briefcase,
+  Calendar,
+  CheckCircle,
+  FileText,
+  Hash,
+  Image,
+  Loader2,
+  Upload,
+} from "lucide-react";
+import axios from "axios";
 
 // Helper functions
 // It will parse the CSV file to plain text
@@ -118,141 +128,148 @@ function formatDate(dateStr) {
 }
 
 // A smalll component for the toast
-const Toast = ({message, type, onClose}) => {
-    useEffect(() => {
-        const t = setTimeout(onClose, 3000);
+const Toast = ({ message, type, onClose }) => {
+  useEffect(() => {
+    const t = setTimeout(onClose, 3000);
 
-        return ()=> clearTimeout(t);
-    }, [onClose])
+    return () => clearTimeout(t);
+  }, [onClose]);
 
-    const bg = type === 'success'
-    ? "bg-green-50 border-green-500"
+  const bg =
+    type === "success" ?
+      "bg-green-50 border-green-500"
     : "bg-red-50 border-red-500";
 
-    const Icon = type === 'success' ? CheckCircle : AlertCircle;
-    const iconColor = type === "success" ? "text-green-500" : 'text-red-500';
+  const Icon = type === "success" ? CheckCircle : AlertCircle;
+  const iconColor = type === "success" ? "text-green-500" : "text-red-500";
 
-    return(
-        <div className={`fixed top-4 right-4 z-50 flex items-center gap-3 p-4 bottom-1-4 rounded-lg shadow-lg ${bg} animate-fadeInUp`}>
-            <Icon className={`w-5 h-5 ${iconColor}`} />
-            <span className='text-gray-700'>{message}</span>
-        </div>
-    )
-}
+  return (
+    <div
+      className={`fixed top-4 right-4 z-50 flex items-center gap-3 p-4 bottom-1-4 rounded-lg shadow-lg ${bg} animate-fadeInUp`}
+    >
+      <Icon className={`w-5 h-5 ${iconColor}`} />
+      <span className='text-gray-700'>{message}</span>
+    </div>
+  );
+};
 
 const RoleQuestionPage = () => {
+  const [roleName, setRoleName] = useState("");
+  const [totalQuestions, setTotalQuestions] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
+  const [csvFile, setCsvFile] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [toast, setToast] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
-    const [roleName, setRoleName] = useState("");
-    const [totalQuestions, setTotalQuestions] = useState("");
-    const [imagePreview, setImagePreview] = useState("");
-    const [csvFile, setCsvFile] = useState(null);
-    const [questions, setQuestions] = useState([]);
-    const [toast, setToast] = useState(null);
-    const [isUploading, setIsUploading] = useState(false);
+  const imageInputRef = useRef(null);
+  const csvInputRef = useRef(null);
 
-    const imageInputRef = useRef(null);
-    const csvInputRef = useRef(null);
+  const clearToast = useCallback(() => setToast(null), []);
 
-    const clearToast = useCallback(() => setToast(null), []);
-
-    // to validate each fields
-    const validateFields = () => {
+  // to validate each fields
+  const validateFields = () => {
     if (!roleName.trim()) {
-        setToast({ message: "Role name is required", type: "error" });
-        return false;
+      setToast({ message: "Role name is required", type: "error" });
+      return false;
     }
     if (!totalQuestions.trim()) {
-        setToast({ message: "Total questions is required", type: "error" });
-        return false;
+      setToast({ message: "Total questions is required", type: "error" });
+      return false;
     }
     if (!imagePreview) {
-        setToast({ message: "Please upload an image", type: "error" });
-        return false;
+      setToast({ message: "Please upload an image", type: "error" });
+      return false;
     }
     if (questions.length === 0) {
-        setToast({
+      setToast({
         message: "Please upload a CSV with questions",
         type: "error",
-        });
-        return false;
+      });
+      return false;
     }
     return true;
-    };
+  };
 
-    // To add role based questions
-    const handleAddRoleQuestion = async () => {
-        if(!validateFields()) return;
+  // To add role based questions
+  const handleAddRoleQuestion = async () => {
+    if (!validateFields()) return;
 
-        try {
-            setIsUploading(true);
-            const token = localStorage.getItem('token');
-            const formDataToSend = new FormData();
+    try {
+      setIsUploading(true);
+      const token = localStorage.getItem("token");
+      const formDataToSend = new FormData();
 
-            formDataToSend.append("roleName", roleName);
-            formDataToSend.append("questionsCount", totalQuestions);
-            if (csvFile) {
-            formDataToSend.append("csvFile", csvFile);
-            formDataToSend.append("csvFileName", csvFile.name);
-            }
+      formDataToSend.append("roleName", roleName);
+      formDataToSend.append("questionsCount", totalQuestions);
+      if (csvFile) {
+        formDataToSend.append("csvFile", csvFile);
+        formDataToSend.append("csvFileName", csvFile.name);
+      }
 
-            const imageFile = imageInputRef.current?.files?.[0];
-            if (imageFile) {
-            formDataToSend.append("imageFile", imageFile);
-            }
+      const imageFile = imageInputRef.current?.files?.[0];
+      if (imageFile) {
+        formDataToSend.append("imageFile", imageFile);
+      }
 
-            formDataToSend.append("questionsData", JSON.stringify(questions));
+      formDataToSend.append("questionsData", JSON.stringify(questions));
 
-            const response = await axios.post('http://localhost:5000/api//interview/role', formDataToSend,
-                {headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}`
-                }}
-            )
+      const response = await axios.post(
+        "http://localhost:5000/api//interview/role",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-            if(response.data.success) {
-                setToast({
-                    message: "Role added successfully",
-                    type: 'success'
-                })
-                // reset the form
-                setRoleName('');
-                setTotalQuestions('');
-                setImagePreview('')
-                setCsvFile(null)
-                setQuestions([])
+      if (response.data.success) {
+        setToast({
+          message: "Role added successfully",
+          type: "success",
+        });
+        // reset the form
+        setRoleName("");
+        setTotalQuestions("");
+        setImagePreview("");
+        setCsvFile(null);
+        setQuestions([]);
 
-                if(imageInputRef.current) imageInputRef.current.value = '';
-                if(csvInputRef.current) csvInputRef.current.value = '';
-
-            }
-
-        } catch (err) {
-            console.error("Error adding the questions: ", err);
-            setToast({
-                message: err.response?.data?.message || "Failed to add the role question",
-                type: 'error'
-            })
-        } finally {
-            setIsUploading(false)
-        }
+        if (imageInputRef.current) imageInputRef.current.value = "";
+        if (csvInputRef.current) csvInputRef.current.value = "";
+      }
+    } catch (err) {
+      console.error("Error adding the questions: ", err);
+      setToast({
+        message:
+          err.response?.data?.message || "Failed to add the role question",
+        type: "error",
+      });
+    } finally {
+      setIsUploading(false);
     }
+  };
 
-    // to handle image
-    const handleImageChange = (e) => {
-        const f = e.target.files[0];
-        if(f && f.startWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = () => setImagePreview(reader.result);
-            reader.readAsDataURL(f)
-        } else {
-            setToast({
-                message: "Please upload a valid image file",
-                type: 'error'
-            })
-        }
+  // to handle image
+  const handleImageChange = (e) => {
+    const f = e.target.files[0];
+    if (f && f.type.startsWith("image/")) {
+
+
+      const reader = new FileReader();
+      reader.onload = () => setImagePreview(reader.result);
+      reader.readAsDataURL(f);
+    } else {
+      setToast({
+        message: "Please upload a valid image file",
+        type: "error",
+      });
     }
+  };
 
-    const findHeaderKey = (headers, variants) => {
+  const findHeaderKey = (headers, variants) => {
     for (const v of variants) {
       const low = v.toLowerCase().replace(/\s+/g, "_");
       const idx = headers.indexOf(low);
@@ -347,9 +364,8 @@ const RoleQuestionPage = () => {
           } else if (compEntries.length > 0 && dateEntries.length > 0) {
             const max = Math.max(compEntries.length, dateEntries.length);
             for (let i = 0; i < max; i++) {
-              const comp = compEntries[i]
-                ? parseCompanyEntry(compEntries[i]).name
-                : "N/A";
+              const comp =
+                compEntries[i] ? parseCompanyEntry(compEntries[i]).name : "N/A";
               const dt = dateEntries[i] || dateEntries[0] || "";
               pairs.push({ name: comp, date: dt });
             }
@@ -424,7 +440,7 @@ const RoleQuestionPage = () => {
 
   return (
     <div className={s.pageContainer}>
-        <style jsx>{`
+      <style>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -440,161 +456,204 @@ const RoleQuestionPage = () => {
         }
       `}</style>
 
-        <div className={s.contentWrapper}>
-            <h1 className={s.title}>Role Interview Questions</h1>
+      <div className={s.contentWrapper}>
+        <h1 className={s.title}>Role Interview Questions</h1>
 
-            <div className={s.formGrid}>
-                <div className={s.formColumn}>
-                    <div className={s.card}>
-                        <label className={s.cardLabel}>
-                            <Briefcase className={s.labelIcon} /> Role Name {" "}
-                            <span className={s.requiredStar}>*</span>
-                        </label>
+        <div className={s.formGrid}>
+          <div className={s.formColumn}>
+            <div className={s.card}>
+              <label className={s.cardLabel}>
+                <Briefcase className={s.labelIcon} /> Role Name{" "}
+                <span className={s.requiredStar}>*</span>
+              </label>
 
-                        <input value={roleName} onChange={e=> setRoleName(e.target.value)} placeholder='e.g. Frontend Developer' className={s.inputField} />
-                    </div>
-
-                    <div className={s.card}>
-                        <label className={s.cardLabel}>
-                            <Hash className={s.labelIcon} /> Total Questions {" "}
-                            <span className={s.requiredStar}>*</span>
-                        </label>
-
-                        <input value={totalQuestions} onChange={e=> setTotalQuestions(e.target.value)} placeholder='e.g. 10k+, 500+' className={s.inputField} />
-                    </div>
-
-                    <div className={s.card}>
-                        <label className={s.cardLabel}>
-                            <Image className={s.labelIcon} /> Upload Image {" "}
-                            <span className={s.requiredStar}>*</span>
-                        </label>
-
-                        <div className={s.dropzone} onClick={()=> imageInputRef.current.click()}>
-                            {imagePreview ? (
-                                <img src={imagePreview} alt="logo" className={s.previewImage} />
-                            ) : (
-                                <>
-                                    <Upload className={s.uploadIcon} />
-                                    <p className={s.uploadText}>Click to upload an image</p>
-                                </>
-                            )}
-
-                            <input type="file" accept='image/*' ref={imageInputRef} onChange={handleImageChange} className={s.fileInputHidden} />
-                        </div>
-                    </div>
-                </div>
-
-                <div className={s.formColumn}>
-                    <div className={s.card}>
-                        <label className={s.cardLabel}>
-                            <FileText className={s.labelIcon} /> Upload CSV {" "}
-                            <span className={s.requiredStar}>*</span>
-                        </label>
-
-                        <div className={s.dropzone} onClick={()=> csvInputRef.current.click()}>
-                            {csvFile ? (
-                                <div className={s.csvSuccess}>
-                                    <CheckCircle className='w-5 h-5' />
-                                    {csvFile.name}
-                                </div>
-                            ) : (
-                                <>
-                                    <Upload className={s.uploadIcon} />
-                                    <p className={s.uploadHint}>
-                                        Click to upload CSV (header: question, answer, keyPoints, company, date). Use ; or | inside a cell for multiple values. company may include date: 'Google (2021-03-10)'
-                                    </p>
-                                </>
-                            )}
-
-                            <input type="file" ref={csvInputRef} accept='.csv' onChange={handleCSVUpload} className={s.fileInputHidden} />
-                            <div className="">
-                                {isUploading && (
-                                    <div className={s.spinnerContainer}>
-                                        <div className={s.spinner}></div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={s.buttonContainer}>
-                        <button onClick={handleAddRoleQuestion} disabled={isUploading} className={`${s.addButton} ${isUploading ? s.addButtonDisabled : ''}`}>
-                            {isUploading ? (
-                                <>
-                                    <Loader2 className={s.buttonSpinner} />
-                                    Adding...
-                                </>
-                            ) : (
-                                "Add Role Question"
-                            )}
-                        </button>
-                    </div>
-
-                    {questions.length > 0 && (
-                        <div className={s.questionsSection}>
-                            <h2 className={s.sectionTitle}>Loaded Questions ({questions.length})</h2>
-
-                            <div className={s.questionsGrid}>
-                                {questions.map((que, index) => (
-                                    <div className={`${s.cardAnimation} ${s.questionCard}`} style={{
-                                        animationDelay: `${index * 50}ms`
-                                    }} key={que.id}>
-                                        <div className={s.cardTopLine}></div>
-                                        <div className={s.questionNumberBadge}>#{que.id}</div>
-
-                                        <div className={s.questionTextContainer}>
-                                            <p className={s.questionText}>{que.question}</p>
-                                        </div>
-
-                                        <div className={s.answerContainer}>{que.answer}</div>
-
-                                        {(que.keyPoints || []).length > 0 && (
-                                            <div className={s.keyPointsContainer}>
-                                                {(que.keyPoints || []).map((kp, index) => (
-                                                    <span className={s.keyPointBadge} key={index}>
-                                                        {kp}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        <div className={s.companiesLabel}>
-                                            <Briefcase className='w-3.5 h-3.5' /> Asked In
-                                        </div>
-
-                                        <div className={s.companiesContainer}>
-                                            {(que.companies || []).length > 0 ? (
-                                                (que.companies || []).map((c, i) => (
-                                                    <div key={i} className={s.companyBadge}>
-                                                        <Briefcase className={s.companyIcon} />
-                                                        <span className={s.companyName}>{c.name}</span>
-                                                        {c.date && (
-                                                            <>
-                                                                <span className={s.separator}>.</span>
-                                                                <Calendar className={s.calendarIcon} />
-                                                                <span className={s.dateText}>{formatDate(c.date)}</span>
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <span className={s.noDataText}>No Company Data</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {toast && (
-                        <Toast message={toast.message} type={toast.type} onClose={clearToast} />
-                    )}
-                </div>
+              <input
+                value={roleName}
+                onChange={(e) => setRoleName(e.target.value)}
+                placeholder='e.g. Frontend Developer'
+                className={s.inputField}
+              />
             </div>
-        </div>
-    </div>
-  )
-}
 
-export default RoleQuestionPage
+            <div className={s.card}>
+              <label className={s.cardLabel}>
+                <Hash className={s.labelIcon} /> Total Questions{" "}
+                <span className={s.requiredStar}>*</span>
+              </label>
+
+              <input
+                value={totalQuestions}
+                onChange={(e) => setTotalQuestions(e.target.value)}
+                placeholder='e.g. 10k+, 500+'
+                className={s.inputField}
+              />
+            </div>
+
+            <div className={s.card}>
+              <label className={s.cardLabel}>
+                <Image className={s.labelIcon} /> Upload Image{" "}
+                <span className={s.requiredStar}>*</span>
+              </label>
+
+              <div
+                className={s.dropzone}
+                onClick={() => imageInputRef.current.click()}
+              >
+                {imagePreview ?
+                  <img
+                    src={imagePreview}
+                    alt='logo'
+                    className={s.previewImage}
+                  />
+                : <>
+                    <Upload className={s.uploadIcon} />
+                    <p className={s.uploadText}>Click to upload an image</p>
+                  </>
+                }
+
+                <input
+                  type='file'
+                  accept='image/*'
+                  ref={imageInputRef}
+                  onChange={handleImageChange}
+                  className={s.fileInputHidden}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className={s.formColumn}>
+            <div className={s.card}>
+              <label className={s.cardLabel}>
+                <FileText className={s.labelIcon} /> Upload CSV{" "}
+                <span className={s.requiredStar}>*</span>
+              </label>
+
+              <div
+                className={s.dropzone}
+                onClick={() => csvInputRef.current.click()}
+              >
+                {csvFile ?
+                  <div className={s.csvSuccess}>
+                    <CheckCircle className='w-5 h-5' />
+                    {csvFile.name}
+                  </div>
+                : <>
+                    <Upload className={s.uploadIcon} />
+                    <p className={s.uploadHint}>
+                      Click to upload CSV (header: question, answer, keyPoints,
+                      company, date). Use ; or | inside a cell for multiple
+                      values. company may include date: 'Google (2021-03-10)'
+                    </p>
+                  </>
+                }
+
+                <input
+                  type='file'
+                  ref={csvInputRef}
+                  accept='.csv'
+                  onChange={handleCSVUpload}
+                  className={s.fileInputHidden}
+                />
+                <div className=''>
+                  {isUploading && (
+                    <div className={s.spinnerContainer}>
+                      <div className={s.spinner}></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className={s.buttonContainer}>
+              <button
+                onClick={handleAddRoleQuestion}
+                disabled={isUploading}
+                className={`${s.addButton} ${isUploading ? s.addButtonDisabled : ""}`}
+              >
+                {isUploading ?
+                  <>
+                    <Loader2 className={s.buttonSpinner} />
+                    Adding...
+                  </>
+                : "Add Role Question"}
+              </button>
+            </div>
+          </div>
+        </div>
+        {questions.length > 0 && (
+            <div className={s.questionsSection}>
+              <h2 className={s.sectionTitle}>
+                Loaded Questions ({questions.length})
+              </h2>
+
+              <div className={s.questionsGrid}>
+                {questions.map((que, index) => (
+                  <div
+                    className={`${s.cardAnimation} ${s.questionCard}`}
+                    style={{
+                      animationDelay: `${index * 50}ms`,
+                    }}
+                    key={que.id}
+                  >
+                    <div className={s.cardTopLine}></div>
+                    <div className={s.questionNumberBadge}>#{que.id}</div>
+
+                    <div className={s.questionTextContainer}>
+                      <p className={s.questionText}>{que.question}</p>
+                    </div>
+
+                    <div className={s.answerContainer}>{que.answer}</div>
+
+                    {(que.keyPoints || []).length > 0 && (
+                      <div className={s.keyPointsContainer}>
+                        {(que.keyPoints || []).map((kp, index) => (
+                          <span className={s.keyPointBadge} key={index}>
+                            {kp}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className={s.companiesLabel}>
+                      <Briefcase className='w-3.5 h-3.5' /> Asked In
+                    </div>
+
+                    <div className={s.companiesContainer}>
+                      {(que.companies || []).length > 0 ?
+                        (que.companies || []).map((c, i) => (
+                          <div key={i} className={s.companyBadge}>
+                            <Briefcase className={s.companyIcon} />
+                            <span className={s.companyName}>{c.name}</span>
+                            {c.date && (
+                              <>
+                                <span className={s.separator}>.</span>
+                                <Calendar className={s.calendarIcon} />
+                                <span className={s.dateText}>
+                                  {formatDate(c.date)}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        ))
+                      : <span className={s.noDataText}>No Company Data</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {toast && (
+            <Toast
+              message={toast.message}
+              type={toast.type}
+              onClose={clearToast}
+            />
+          )}
+      </div>
+    </div>
+  );
+};
+
+export default RoleQuestionPage;

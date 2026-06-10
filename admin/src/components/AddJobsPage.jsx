@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {addJobsPageStyles as s} from "../assets/dummyStyles"
 import { Briefcase, Building2, Calendar, Code2, DollarSign, FileText, GraduationCap, ImageIcon, ListChecks, Loader2, Plus, Tag, Trash2, Upload, Users, X } from 'lucide-react';
 import axios from 'axios';

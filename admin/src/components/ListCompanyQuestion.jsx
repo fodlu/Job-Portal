@@ -95,6 +95,14 @@ const ListCompanyQuestion = () => {
   const [editingCompany, setEditingCompany] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "success",
+    confirmAction: null,
+    confirmData: null,
+  });
+
   const [formData, setFormData] = useState({
     name: "",
     totalQuestions: "",
@@ -104,13 +112,6 @@ const ListCompanyQuestion = () => {
     csvFileName: "",
   });
 
-  const [toast, setToast] = useState({
-    visible: false,
-    message: "",
-    type: "success",
-    confirmAction: null,
-    confirmData: null,
-  });
 
   useEffect(() => {
     if (toast.visible && toast.type !== "confirm") {
