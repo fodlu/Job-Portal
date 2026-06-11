@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef, useState } from 'react'
 import {navbarStyles as s} from '../assets/dummyStyles';
 import logo from '../assets/logo.png';
 import { Home, Search, Briefcase, UserCog, Bookmark, UserPen } from 'lucide-react';
@@ -44,6 +44,8 @@ const Navbar = () => {
                 <div className={s.logoSection}>
                     <div className={s.logoWrapper}>
                         <Link to="/">
+                            <img src={logo} alt="Logo" width={36} height={36} className={s.logoImage} />
+                        </Link>
                     </div>
                 </div>
             </div>

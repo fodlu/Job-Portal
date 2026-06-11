@@ -12,7 +12,6 @@ import ApplicantPage from "./pages/ApplicantPage";
 
 const App = () => {
   return (
-    <div className="">
       <div className="">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -27,7 +26,6 @@ const App = () => {
           <Route path="/applicants" element={<ApplicantPage />} />
         </Routes>
       </div>
-    </div>
   )
 }
 
