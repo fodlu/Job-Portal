@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {viewApplicantsPageStyles as s} from '../assets/dummyStyles'
 import { ArrowLeft, Briefcase, Calendar, Mail, Phone, Users } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';

@@ -82,7 +82,7 @@ function parseCSV(text) {
 const splitMulti = (cell) =>
   (cell || "")
     .toString()
-    .split(/[\n;\|]+/)
+    .split(/[n;|]+/)
     .map((s) => s.trim())
     .filter(Boolean); // split the csv file by /
 
