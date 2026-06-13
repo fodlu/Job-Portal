@@ -12,6 +12,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.19.4",
     "@tailwindcss/vite": "^4.3.0",
+    "axios": "^1.17.0",
     "lottie-react": "^2.4.1",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",

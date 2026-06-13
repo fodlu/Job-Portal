@@ -304,10 +304,10 @@ const Navbar = () => {
                                                 </Link>
                                                 <button onClick={() => {
                                                     handleLogout();
-                                                    setIsMobileMenuOpen(false)
+													setIsMobileMenuOpen(false)
                                                 }} className={s.mobileProfileButton}>
                                                     <LogOut className="w-5 h-5" />
-                                                    <span className='font-medium'>Logout</span>
+													<span className='font-medium'>Logout</span>
                                                 </button>
                                             </div>
                                         </>

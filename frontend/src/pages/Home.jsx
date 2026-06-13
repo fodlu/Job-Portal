@@ -1,6 +1,7 @@
 import Banner from '../components/Banner';
 import Candidate from '../components/Candidate';
 import Career from '../components/Career';
+import InterviewQuestion from '../components/InterviewQuestion';
 import Navbar from '../components/Navbar';
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
         <Banner />
         <Candidate />
         <Career />
+        <InterviewQuestion />
     </div>
   )
 }
