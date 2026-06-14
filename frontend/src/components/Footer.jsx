@@ -71,25 +71,25 @@ const Footer = () => {
 							<SocialIcon
 								href='#'
 								// icon={<LuLinkedIn />}
-								className='w-4 h-4 sm:w-5 h-5'
+								className='w-4 h-4'
 								label='Linkedin'
 							/>
 							<SocialIcon
 								href='#'
 								// icon={<LuTwitter />}
-								className='w-4 h-4 sm:w-5 h-5'
+								className='w-4 h-4'
 								label='Twiter'
 							/>
 							<SocialIcon
 								href='#'
 								// icon={<LuFacebook />}
-								className='w-4 h-4 sm:w-5 h-5'
+								className='w-4 h-4'
 								label='Facebook'
 							/>
 							<SocialIcon
 								href='#'
 								// icon={<LuInstagram />}
-								className='w-4 h-4 sm:w-5 h-5'
+								className='w-4 h-4'
 								label='Instagram'
 							/>
 						</div>
