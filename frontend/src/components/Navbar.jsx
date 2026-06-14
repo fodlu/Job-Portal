@@ -89,7 +89,7 @@ const Navbar = () => {
 		const raw = localStorage.getItem(STORAGE_KEY);
 		if (raw) setUser(JSON.parse(raw));
 		else setUser(null);
-	} catch (e) {
+	} catch {
 		setUser(null);
 	}
 	setIsUserMenuOpen(false);
@@ -281,7 +281,7 @@ const Navbar = () => {
                                     {!user ? (
                                         <button onClick={()=> {
                                             navigate('/login');
-                                            isMobileMenuOpen(false)
+                                            setIsMobileMenuOpen(false)
                                         }} className={s.mobileLoginButton}>
                                             <LogIn className='w-5 h-5' />
                                             <span className="font-medium">Login</span>
