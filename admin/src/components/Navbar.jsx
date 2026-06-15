@@ -79,6 +79,7 @@ const Navbar = ({logoSrc, brandName = "Job Portal", onNavigate}) => {
         return () => window.removeEventListener("resize", onResize);
     }, []);
     const isLGOnly = windowWidth >= 1024 && windowWidth < 1280;
+    // when you click outside it collapse the dropdown
 
     useEffect(() => {
         if (!isLGOnly) return;

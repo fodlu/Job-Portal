@@ -2,7 +2,7 @@ import { footerStyles as s } from "../assets/dummyStyles";
 import logo from "../assets/logo.png";
 import Companylogo from "../assets/hexagonlogo.png";
 import { ArrowRight, Award, Bookmark, Briefcase, Building, Mail, MapPin, Phone, Shield, UserCog, UserPen, Users } from "lucide-react"
-// import { LuFacebook, LuInstagram, LuTwitter } from "react-icons/lu";
+import { LuFacebook, LuInstagram, LuLinkedin, LuTwitter } from "react-icons/lu";
 
 // small components
 // social icons
@@ -70,27 +70,23 @@ const Footer = () => {
 						<div className={s.socialIconsContainer}>
 							<SocialIcon
 								href='#'
-								// icon={<LuLinkedIn />}
+								icon={<LuLinkedin />}
 								className='w-4 h-4'
-								label='Linkedin'
 							/>
 							<SocialIcon
 								href='#'
-								// icon={<LuTwitter />}
+								icon={<LuTwitter />}
 								className='w-4 h-4'
-								label='Twiter'
 							/>
 							<SocialIcon
 								href='#'
-								// icon={<LuFacebook />}
+								icon={<LuFacebook />}
 								className='w-4 h-4'
-								label='Facebook'
 							/>
 							<SocialIcon
 								href='#'
-								// icon={<LuInstagram />}
+								icon={<LuInstagram />}
 								className='w-4 h-4'
-								label='Instagram'
 							/>
 						</div>
 					</div>
