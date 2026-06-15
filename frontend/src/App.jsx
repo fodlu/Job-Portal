@@ -22,7 +22,9 @@ const ScrollToTopOnRouteChange = () => {
       return () => {
         try {
           window.history.scrollRestoration = prev;
-        } catch (e) {}
+        } catch {
+          // ignore
+        }
       };
     }
   }, []);
@@ -32,7 +34,9 @@ const ScrollToTopOnRouteChange = () => {
       window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
-    } catch (e) {}
+    } catch {
+      // ignore
+    }
   }, [pathname]);
 
   return null;

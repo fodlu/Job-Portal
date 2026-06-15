@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const navItems = [
+/* const navItems = [
 	{ id: "home", label: "Home", path: "/", icon: <Home size={18} /> },
 	{ id: "jobs", label: "Jobs", path: "/jobs", icon: <Search size={18} /> },
 	{
@@ -37,7 +37,7 @@ const navItems = [
 	},
 ];
 const STORAGE_KEY = "jobportal_user";
-
+ */
 const Navbar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();

@@ -26,12 +26,12 @@ const FooterLink = ({ href, children, icon }) => (
 );
 
 // stat item
-const StatItem = ({ number, label }) => {
+/* const StatItem = ({ number, label }) => {
 	<div className={s.statItem}>
 		<div className={s.statNumber}>{number}</div>
 		<div className={s.statLabel}>{label}</div>
 	</div>;
-};
+}; */
 
 // for contact
 const ContactItem = ({ icon, text, href }) => (

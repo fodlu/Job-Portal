@@ -25,14 +25,15 @@ const STORAGE_JOBS_KEY = "savedJobs";
 const STORAGE_KEY = "savedQuestionIds";
 const APPLIED_STORAGE_KEY = "appliedJobs";
 
-const slugify = (str) =>
+/* const slugify = (str) =>
   str
     .toString()
     .toLowerCase()
     .trim()
     .replace(/\s+/g, "-")
     .replace(/[^\w-]+/g, "")
-    .replace(/--+/g, "-");
+    .replace(/--+/g, "-")
+; */
 
 const timeAgo = (dateString) => {
   if (!dateString) return "";
@@ -59,7 +60,7 @@ const timeAgo = (dateString) => {
   return `${years} year${years === 1 ? "" : "s"} ago`;
 };
 
-const STORAGE_LISTENER_KEY = STORAGE_KEY;
+// const STORAGE_LISTENER_KEY = STORAGE_KEY;
 
 const SavePage = () => {
   const location = useLocation();
@@ -100,8 +101,7 @@ const SavePage = () => {
   const [roles, setRoles] = useState([]);
   const [companiesState, setCompaniesState] = useState([]);
 
-  const companyById = (id) =>
-    companiesState.find((c) => String(c._id) === String(id));
+  // const companyById = (id) => companiesState.find((c) => String(c._id) === String(id));
 
   const roleById = (id) => roles.find((r) => String(r._id) === String(id));
 
