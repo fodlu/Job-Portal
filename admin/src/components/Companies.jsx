@@ -27,10 +27,12 @@ const Companies = () => {
 		const fetchCompanies = async () => {
 			try {
 				const token = localStorage.getItem("token");
-				const res = await axios.get("http://localhost:5000/api/company/", {
+				const res = await axios.get("http://localhost:5000/api/company", {
 					headers: { Authorization: `Bearer ${token}` },
 				});
-				setCompanies(res.data.Companies);
+
+				console.log(res.data)
+				setCompanies(res.data.companies);
 			} catch (error) {
 				console.error(error);
 			}
@@ -74,7 +76,7 @@ const Companies = () => {
 	const validateForm = () => {
 		const newErrors = {};
 		if (!logoFile) newErrors.logo = "Logo is required";
-		if (!website.trim()) {
+		if (!website?.trim()) {
 			newErrors.website = "Website URL is required";
 		} else if (!/^https?:\/\/.+\..+/.test(website)) {
 			newErrors.website = "Enter a valid URL (e.g., https://example.com)";
@@ -97,7 +99,7 @@ const Companies = () => {
 			formData.append("website", website.trim());
 
 			const res = await axios.post(
-				"http://localhost:5000/api/company/",
+				"http://localhost:5000/api/company",
 				formData,
 				{
 					headers: {
@@ -286,7 +288,7 @@ const Companies = () => {
 							<input
 								type='url'
 								value={website}
-								onChange={(e) => setWebsite(e.target.vale)}
+								onChange={(e) => setWebsite(e.target.value)}
 								className={`${s.websiteInput} ${errors.website ? s.inputError : s.inputDefault}`}
 								placeholder='https:/example.com'
 							/>

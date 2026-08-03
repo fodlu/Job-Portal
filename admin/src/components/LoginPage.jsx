@@ -68,9 +68,7 @@ const LoginPage = () => {
 				message: "Login successful",
 				type: "success",
 			});
-			setTimeout(() => {
-				navigate("/");
-			}, 1500);
+			setTimeout(() => navigate("/"), 1500);
 		} catch {
 			setToast({
 				visible: true,

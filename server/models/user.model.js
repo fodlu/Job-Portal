@@ -43,10 +43,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RoleQuestion'
     }],
-    isVerified: [{
+    isVerified: {
         type: Boolean,
         default: false
-    }],
+    },
     verificationOTP: String,
     verificationOTPExpires: Date,
     resetPasswordOTP: String,

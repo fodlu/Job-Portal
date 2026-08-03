@@ -100,6 +100,7 @@ const LoginPage = () => {
 			setToast({ message: "All fields are required", type: "error" });
 			return;
 		}
+
 		try {
 			setIsLoading(true);
 			const res = await API.post("/auth/login", { email, password });
@@ -123,7 +124,7 @@ const LoginPage = () => {
 			}, 800);
 		} catch (error) {
 			setToast({
-				message: error.response?.data?.message || "Error failed",
+				message: error.response?.data?.message || "Error: failed to login",
 				type: "error",
 			});
 		} finally {

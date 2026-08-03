@@ -1,7 +1,7 @@
 import cloudinary from "../config/cloudinary.js";
 
 export const uploadToCloudinary = (fileBuffer, folderName, resourceType = "auto", publicId = null) => {
-    return new Promise((ressolve, reject) => {
+    return new Promise((resolve, reject) => {
         const options = {
             folder: folderName,
             resource_type: resourceType,
@@ -15,7 +15,7 @@ export const uploadToCloudinary = (fileBuffer, folderName, resourceType = "auto"
             if(resourceType === 'raw'){
                 options.public_id = publicId
             } else {
-                options.public_id = publicId.includes["."] ? publicId.split('.').slice(0, -1).join('.') : publicId;
+                options.public_id = publicId.includes(".") ? publicId.split('.').slice(0, -1).join('.') : publicId;
             }
         }
 

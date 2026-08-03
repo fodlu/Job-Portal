@@ -67,6 +67,7 @@ const ViewProfile = () => {
 				});
 
 				const data = await res.json();
+				console.log(data)
 				setProfile({
 					name: data.user.name || "",
 					email: data.user.email || "",
@@ -309,6 +310,8 @@ const ViewProfile = () => {
 									required
 								/>
 							:	<p className={s.displayText}>{profile.email}</p>}
+
+							{console.log(profile)}
 						</div>
 
 						{/* phone field */}

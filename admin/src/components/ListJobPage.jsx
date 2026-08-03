@@ -376,7 +376,7 @@ export default function ListJobs() {
 					</div>
 				</header>
 
-				{/* Grid is thee UI for card */}
+				{/* Grid is the UI for card */}
 				<div className={s.grid}>
 					{filteredJobs.map((job) => (
 						<article key={job.id} className={s.jobCard}>

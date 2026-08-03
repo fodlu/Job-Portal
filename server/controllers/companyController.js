@@ -4,7 +4,7 @@ import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 // to get all companies
 export const getCompanies = async (req, res) => {
     try {
-        const companies = await companyModel.find({});
+        const companies = await companyModel.find();
         res.status(200).json({
             success: true,
             companies
@@ -68,7 +68,7 @@ export const deleteInterviewCompany = async (req, res) => {
             })
         }
 
-        await company.deleteOne(req.params.id);
+        await company.deleteOne();
 
         res.status(200).json({
             success: true,

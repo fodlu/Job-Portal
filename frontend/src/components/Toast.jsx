@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { toastStyles as s } from '../assets/dummyStyles'
 import { CheckCircle, X, XCircle } from 'lucide-react';
 
@@ -22,7 +22,7 @@ const Toast = ({type, message, onClose, duration=3000}) => {
         }
     };
 
-    const {icon, bg, border, text} = config(type) || config.success;
+    const {icon, bg, border, text} = config[type] || config.success;
 
   return (
     <div className={`${s.container} ${bg} ${border} ${text}`}>
