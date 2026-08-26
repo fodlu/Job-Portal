@@ -110,6 +110,7 @@ const SignupPage = () => {
 		try {
 			setIsLoading(true);
 			const res = await API.post("/auth/register", formData);
+			console.log(res)
 			setToast({ message: res.data.message, type: "success" });
 			setIsVerifying(true);
 		} catch (error) {

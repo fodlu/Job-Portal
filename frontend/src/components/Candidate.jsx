@@ -41,7 +41,7 @@ const Candidate = () => {
 	}, []);
 
 	//   these function are for mouse movement (i.e when mouse enter or exit or hover)
-	const handleMouseMove = (e, id) => {
+	const handleMouseMove = (e) => {
 		if (!isXL) return;
 		const rect = e.currentTarget.getBoundingClientRect();
 		const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;

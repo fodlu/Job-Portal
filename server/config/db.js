@@ -13,12 +13,11 @@ export const connectDB = async () => {
 	}
 };
 
-// export const connectDb = async(req, res) => {
-//     try {
-//       await mongoose.connect("mongodb://localhost:27017/jobPortal")
-//       console.log("DB connected")
-//     } catch (error) {
-//       console.error("Error connecting Database");
-//     }
-
-// }
+// export const connectDB = async (req, res) => {
+// 	try {
+// 		await mongoose.connect("mongodb://localhost:27017/jobPortal");
+// 		console.log("DB connected");
+// 	} catch (error) {
+// 		console.error("Error connecting Database");
+// 	}
+// };

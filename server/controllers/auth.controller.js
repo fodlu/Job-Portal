@@ -12,6 +12,7 @@ export const register = async (req, res) => {
 		const { name, email, password, role } = req.body;
 		const userExist = await userModel.findOne({ email });
 
+
 		if (userExist) {
 			return res.status(400).json({
 				success: false,

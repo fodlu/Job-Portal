@@ -7,7 +7,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --dns-result-order=ipv4first server.js"
+    "start": "nodemon server.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
