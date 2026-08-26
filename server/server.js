@@ -29,7 +29,7 @@ connectDB()
 // MIDDLEWARES
 app.use(express.json())
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://job-portal-app-mu.vercel.app', "https://job-portal-seven-rose-14.vercel.app/"],
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://job-portal-app-mu.vercel.app', "https://job-portal-seven-rose-14.vercel.app", "https://job-portal-server-eta-sage.vercel.app"],
     credentials: true
 }))
 
