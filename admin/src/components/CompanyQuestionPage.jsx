@@ -14,6 +14,7 @@ import {
 	X,
 	XCircle,
 } from "lucide-react";
+import API from "../../utils/api";
 
 // helpers function
 const parseCountString = (str) => {
@@ -271,8 +272,8 @@ const CompanyQuestionPage = () => {
 				formDataToSend.append("questionsData", JSON.stringify(parsedQuestions));
 
 				const token = localStorage.getItem("token");
-				const response = await axios.post(
-					"http://localhost:5000/api/interview",
+				const response = await API.post(
+					"/interview",
 					formDataToSend,
 					{
 						headers: {

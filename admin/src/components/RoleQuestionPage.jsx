@@ -12,6 +12,7 @@ import {
   Upload,
 } from "lucide-react";
 import axios from "axios";
+import API from "../../utils/api";
 
 // Helper functions
 // It will parse the CSV file to plain text
@@ -214,8 +215,8 @@ const RoleQuestionPage = () => {
 
       formDataToSend.append("questionsData", JSON.stringify(questions));
 
-      const response = await axios.post(
-        "http://localhost:5000/api/interview/role",
+      const response = await API.post(
+        "/interview/role",
         formDataToSend,
         {
           headers: {

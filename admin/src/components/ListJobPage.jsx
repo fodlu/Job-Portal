@@ -25,6 +25,7 @@ import {
 	Loader2,
 } from "lucide-react";
 import { listJobsStyles as s, getBadgeClasses } from "../assets/dummyStyles";
+import API from "../../utils/api";
 
 // small reusable Badge component
 const Badge = ({ children, variant = "default", onRemove, className = "" }) => {
@@ -113,7 +114,7 @@ export default function ListJobs() {
 	const fetchJobs = async () => {
 		try {
 			const token = localStorage.getItem("token");
-			const res = await axios.get("http://localhost:5000/api/job/admin/jobs", {
+			const res = await API.get("/job/admin/jobs", {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			if (res.data.success) {
@@ -151,7 +152,7 @@ export default function ListJobs() {
 			return;
 		try {
 			const token = localStorage.getItem("token");
-			const res = await axios.delete(`http://localhost:5000/api/job/${id}`, {
+			const res = await API.delete(`/job/${id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			if (res.data.success) {
@@ -233,16 +234,12 @@ export default function ListJobs() {
 				formDataToSend.append("companyLogo", blob, "logo.png");
 			} // for image
 
-			const res = await axios.put(
-				`http://localhost:5000/api/job/${editingJob.id}`,
-				formDataToSend,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-						Authorization: `Bearer ${token}`,
-					},
+			const res = await API.put(`/job/${editingJob.id}`, formDataToSend, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
 				},
-			);
+			});
 
 			if (res.data.success) {
 				const updatedJob = mapBackToFrontend(res.data.job);

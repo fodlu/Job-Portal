@@ -14,8 +14,9 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { listCompanyQuestionStyles as s } from "../assets/dummyStyles";
+import API from "../../utils/api";
 
-const API_URL = "http://localhost:5000/api/interview";
+const API_URL = `${API}/interview`;
 
 const parseCSVText = (text) => {
   const rows = [];

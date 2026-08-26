@@ -10,6 +10,7 @@ import {
 	X,
 	XCircle,
 } from "lucide-react";
+import API from "../../utils/api";
 
 const Companies = () => {
 	const [logoFile, setLogoFile] = useState(null);
@@ -27,7 +28,7 @@ const Companies = () => {
 		const fetchCompanies = async () => {
 			try {
 				const token = localStorage.getItem("token");
-				const res = await axios.get("http://localhost:5000/api/company", {
+				const res = await API.get("/company", {
 					headers: { Authorization: `Bearer ${token}` },
 				});
 
@@ -97,8 +98,8 @@ const Companies = () => {
 			formData.append("logo", logoFile);
 			formData.append("website", website.trim());
 
-			const res = await axios.post(
-				"http://localhost:5000/api/company",
+			const res = await API.post(
+				"/company",
 				formData,
 				{
 					headers: {
@@ -138,8 +139,8 @@ const Companies = () => {
 	const handleConfirmDelete = async () => {
 		try {
 			const token = localStorage.getItem("token");
-			await axios.delete(
-				`http://localhost:5000/api/company/${pendingDeleteId}`,
+			await API.delete(
+				`/company/${pendingDeleteId}`,
 				{
 					headers: { Authorization: `Bearer ${token}` },
 				},
