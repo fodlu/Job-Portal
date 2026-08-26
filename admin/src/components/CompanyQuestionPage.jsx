@@ -282,6 +282,8 @@ const CompanyQuestionPage = () => {
 					},
 				);
 
+				console.log(response)
+
 				if (response.data.success) {
 					setToast({
 						type: "success",

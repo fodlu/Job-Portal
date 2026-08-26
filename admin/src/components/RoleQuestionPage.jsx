@@ -215,7 +215,7 @@ const RoleQuestionPage = () => {
       formDataToSend.append("questionsData", JSON.stringify(questions));
 
       const response = await axios.post(
-        "http://localhost:5000/api//interview/role",
+        "http://localhost:5000/api/interview/role",
         formDataToSend,
         {
           headers: {

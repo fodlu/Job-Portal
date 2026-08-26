@@ -2,26 +2,41 @@ import { uploadToCloudinary } from "./cloudinaryUpload.js";
 
 // upload files
 export const uploadFiles = async (files, config) => {
-    const result = {}
+    const result = {};
 
-    if(!files) return results;
+    if (!files || typeof files !== 'object') return result;
 
-    for (const key in config) {
-        if(files[key]){
-            const file = files[key][0];
+    // Run file uploads in parallel for better performance
+    const uploadPromises = Object.keys(config).map(async (key) => {
+        const fileList = files[key];
+        const fileConfig = config[key];
+
+        if (fileList && fileList.length > 0) {
+            const file = fileList[0];
 
             const uploadRes = await uploadToCloudinary(
                 file.buffer,
-                config[key].folder,
-                config[key].type,
+                fileConfig.folder,
+                fileConfig.type,
                 file.originalname
             );
 
-            result[key] = upload.secure_url;
+            return { key, url: uploadRes?.secure_url };
+        }
+        return null;
+    });
+
+    const uploads = await Promise.all(uploadPromises);
+
+    // Populate result object
+    for (const upload of uploads) {
+        if (upload && upload.url) {
+            result[upload.key] = upload.url;
         }
     }
-    return result
-}
+
+    return result;
+};
 
 // parse and format questions
 export const parseQuestions = (questionData, type, id, userId) => {

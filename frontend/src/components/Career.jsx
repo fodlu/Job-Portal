@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { careerPageStyles as s } from "../assets/dummyStyles";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ const Career = () => {
 		const fetchCompanies = async () => {
 			try {
 				const res = await axios.get("http://localhost:5000/api/company");
-				setCompanies(res.data.companies);
+				setCompanies(res.data.companies || []);
 			} catch (error) {
 				console.log("Error fetching companies: ", error);
 			}
@@ -18,7 +18,13 @@ const Career = () => {
 		fetchCompanies();
 	}, []);
 
-	const duplicatedCompanies = [...companies, ...companies];
+	const duplicatedCompanies = useMemo(() => (companies.length ? [...companies, ...companies] : []), [companies]);
+
+	// Reversed list for the bottom marquee row
+    // const reversedDuplicatedCompanies = useMemo(
+    //     () => [...duplicatedCompanies].reverse(),
+    //     [duplicatedCompanies]
+    // );
 
 	// fallback Image
 	const placeholder = (name) =>

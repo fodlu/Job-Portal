@@ -137,12 +137,13 @@ const ListCompanyQuestion = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/companies`);
+      console.log(response)
       if (response.data.success) {
         setCompanies(response.data.companies);
       }
     } catch (err) {
       console.error(err);
-      showToast("Failed to fetch companies", "error");
+      showToast("Failed to fetch companies", err);
     } finally {
       setLoading(false);
     }
@@ -232,7 +233,7 @@ const ListCompanyQuestion = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) {
-      showToast("Please upload an image file", "error");
+      showToast("Please upload an image file");
       return;
     }
 
@@ -257,7 +258,7 @@ const ListCompanyQuestion = () => {
       !file.type.includes("csv") &&
       !file.name.endsWith(".csv")
     ) {
-      showToast("Please upload a CSV file", "error");
+      showToast("Please upload a CSV file");
       return;
     }
     setFormData((prev) => ({ ...prev, csvFile: file, csvFileName: file.name }));
@@ -390,6 +391,7 @@ const ListCompanyQuestion = () => {
     });
   };
 
+  console.log(companies)
   return (
     <div className={s.container}>
       <header className={s.header}>
@@ -479,9 +481,9 @@ const ListCompanyQuestion = () => {
 
                     <div className={s.csvInfo}>
                       <FileText size={14} className={s.csvIcon} />
-                      {company.csvFileUrl ? (
+                      {company.csvfileurl ? (
                         <a
-                          href={company.csvFileUrl}
+                          href={company.csvfileurl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className={s.csvLink}

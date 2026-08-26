@@ -12,9 +12,9 @@ import {
 	ChevronDown,
 	ChevronUp,
 	User,
-    LogOut,
-    X,
-    Menu,
+	LogOut,
+	X,
+	Menu,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -49,90 +49,101 @@ const Navbar = () => {
 	const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 	const userMenuRef = useRef(null);
 
-
 	const navItems = [
-	{ id: "home", label: "Home", path: "/", icon: <Home size={18} /> },
-	{ id: "jobs", label: "Jobs", path: "/jobs", icon: <Search size={18} /> },
-	{
-		id: "companies",
-		label: "Companies",
-		path: "/companies",
-		icon: <Briefcase size={18} />,
-	},
-	{ id: "roles", label: "Roles", path: "/roles", icon: <UserCog size={18} /> },
-	{ id: "saved", label: "Saved", path: "/saved", icon: <Bookmark size={18} /> },
-	{
-		id: "contact",
-		label: "Contact",
-		path: "/contact",
-		icon: <UserPen size={18} />,
-	},
+		{ id: "home", label: "Home", path: "/", icon: <Home size={18} /> },
+		{ id: "jobs", label: "Jobs", path: "/jobs", icon: <Search size={18} /> },
+		{
+			id: "companies",
+			label: "Companies",
+			path: "/companies",
+			icon: <Briefcase size={18} />,
+		},
+		{
+			id: "roles",
+			label: "Roles",
+			path: "/roles",
+			icon: <UserCog size={18} />,
+		},
+		{
+			id: "saved",
+			label: "Saved",
+			path: "/saved",
+			icon: <Bookmark size={18} />,
+		},
+		{
+			id: "contact",
+			label: "Contact",
+			path: "/contact",
+			icon: <UserPen size={18} />,
+		},
 	];
 	const STORAGE_KEY = "jobportal_user";
 
 	useEffect(() => {
-	const handleScroll = () => setIsScrolled(window.scrollY > 10);
-	window.addEventListener("scroll", handleScroll);
-	return () => window.removeEventListener("scroll", handleScroll);
+		const handleScroll = () => setIsScrolled(window.scrollY > 10);
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
 	}, []); // this is to make the navbar sticky
 
 	useEffect(() => {
-	const path = location.pathname || "/";
-	const matched =
-		navItems.find((i) => i.path === path) ||
-		navItems.find((i) => path.startsWith(i.path) && i.path !== "/");
-	setActiveNavItems(matched ? matched.id : "home");
+		const path = location.pathname || "/";
+		const matched =
+			navItems.find((i) => i.path === path) ||
+			navItems.find((i) => path.startsWith(i.path) && i.path !== "/");
+		setActiveNavItems(matched ? matched.id : "home");
 	}, [location]); // check and always active the home tabas active
 
 	useEffect(() => {
-	try {
-		const raw = localStorage.getItem(STORAGE_KEY);
-		if (raw) setUser(JSON.parse(raw));
-		else setUser(null);
-	} catch {
-		setUser(null);
-	}
-	setIsUserMenuOpen(false);
-	}, [location]); // to get the key from the localstorage
-
-	useEffect(() => {
-	const onStorage = (e) => {
-		if (e.key === STORAGE_KEY) {
 		try {
-			setUser(e.newValue ? JSON.parse(e.newValue) : null);
+			const raw = localStorage.getItem(STORAGE_KEY);
+			if (raw) {
+				setUser(JSON.parse(raw));
+			} else {
+				setUser(null);
+			}
 		} catch {
 			setUser(null);
 		}
-		}
-	};
-	window.addEventListener("storage", onStorage);
-	return () => window.removeEventListener("storage", onStorage);
+		setIsUserMenuOpen(false);
+	}, [location]); // to get the key from the localstorage
+
+	useEffect((e) => {
+		const onStorage = (e) => {
+			if (e.key === STORAGE_KEY) {
+				try {
+					setUser(e.newValue ? JSON.parse(e.newValue) : null);
+				} catch {
+					setUser(null);
+				}
+			}
+		};
+		window.addEventListener("storage", onStorage);
+		return () => window.removeEventListener("storage", onStorage);
 	}, []); // to sync the user after localstorage gets updated
 
 	useEffect(() => {
-	const onClick = (e) => {
-		if (
-		isUserMenuOpen &&
-		userMenuRef.current &&
-		!userMenuRef.current.contains(e.target)
-		) {
-		setIsUserMenuOpen(false);
-		}
-	};
-	document.addEventListener("mousedown", onClick);
-	return () => document.removeEventListener("mousedown", onClick);
+		const onClick = (e) => {
+			if (
+				isUserMenuOpen &&
+				userMenuRef.current &&
+				!userMenuRef.current.contains(e.target)
+			) {
+				setIsUserMenuOpen(false);
+			}
+		};
+		document.addEventListener("mousedown", onClick);
+		return () => document.removeEventListener("mousedown", onClick);
 	}, [isUserMenuOpen]); // to check user menu is open or not
 
 	useEffect(() => {
-	const onResize = () => {
-		if (window.innerWidth >= 1024) {
-		setIsMobileMenuOpen(false);
-		}
-	};
-	window.addEventListener("resize", onResize);
-	return () => window.removeEventListener("resize", onResize);
+		const onResize = () => {
+			if (window.innerWidth >= 1024) {
+				setIsMobileMenuOpen(false);
+			}
+		};
+		window.addEventListener("resize", onResize);
+		return () => window.removeEventListener("resize", onResize);
 	}, []); // to make the UI responsive
-
 
 	const handleNavClick = (item) => {
 		navigate(item.path);
@@ -147,7 +158,7 @@ const Navbar = () => {
 		localStorage.removeItem("appliedJobs");
 		localStorage.removeItem("savedJobs");
 		setUser(null);
-		setIsUserMenuOpen(null);
+		setIsUserMenuOpen(false);
 		setIsMobileMenuOpen(false);
 		navigate("/login");
 	};
@@ -243,85 +254,97 @@ const Navbar = () => {
 											<User className={s.dropdownIcon} />
 											<span className={s.dropdownText}>View Profile</span>
 										</Link>
-                                        <button onClick={()=>handleLogout} className={`${s.dropdownItem} w-full text-left`}>
-                                            <LogOut className={s.dropdownIcon} />
-                                            <span className={s.dropdownText}>Logout</span>
-                                        </button>
+										<button
+											onClick={() => handleLogout()}
+											className={`${s.dropdownItem} w-full text-left`}>
+											<LogOut className={s.dropdownIcon} />
+											<span className={s.dropdownText}>Logout</span>
+										</button>
 									</div>
 								</div>
 							}
 						</div>
 					</div>
 
-                    {/* mobile toggle */}
-                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={s.mobileToggle}>
-                        {isMobileMenuOpen ? (
-                            <X className={s.mobileToggleIcon} />
-                        ) : (
-                            <Menu className={s.mobileToggleIcon} />
-                        )}
-                    </button>
+					{/* mobile toggle */}
+					<button
+						onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+						className={s.mobileToggle}>
+						{isMobileMenuOpen ?
+							<X className={s.mobileToggleIcon} />
+						:	<Menu className={s.mobileToggleIcon} />}
+					</button>
 				</div>
 
-                {/* mobile menu */}
-                <div className={s.mobileMenu(isMobileMenuOpen)}>
-                    <div className={s.mobileMenuCard}>
-                        <div className={s.mobileMenuSpace}>
-                            {navItems.map((item) => (
-                                <button key={item.id} onClick={()=> handleNavClick(item)} className={s.mobileNavButton(activeNavItems === item.id)}>
-                                    <div className={s.mobileNavIconWrapper(activeNavItems === item.id)}>
-                                        {item.icon}
-                                    </div>
-                                    <span className={s.mobileNavLabel}>{item.label}</span>
-                                </button>
-                            ))}
+				{/* mobile menu */}
+				<div className={s.mobileMenu(isMobileMenuOpen)}>
+					<div className={s.mobileMenuCard}>
+						<div className={s.mobileMenuSpace}>
+							{navItems.map((item) => (
+								<button
+									key={item.id}
+									onClick={() => handleNavClick(item)}
+									className={s.mobileNavButton(activeNavItems === item.id)}>
+									<div
+										className={s.mobileNavIconWrapper(
+											activeNavItems === item.id,
+										)}>
+										{item.icon}
+									</div>
+									<span className={s.mobileNavLabel}>{item.label}</span>
+								</button>
+							))}
 
-                            <div className={s.mobileDivider}>
-                                <div className={s.mobileMenuSpace}>
-                                    {!user ? (
-                                        <button onClick={()=> {
-                                            navigate('/login');
-                                            setIsMobileMenuOpen(false)
-                                        }} className={s.mobileLoginButton}>
-                                            <LogIn className='w-5 h-5' />
-                                            <span className="font-medium">Login</span>
-                                        </button>
-                                    ) : (
-                                        <>
-                                            <div className={s.mobileUserInfo}>
-                                                <div className={s.mobileAvatar}>
-                                                    {getinitials(user.name)}
-                                                </div>
-                                                <div>
-                                                    <div className={s.mobileUserName}>{user.name}</div>
-                                                </div>
-                                            </div>
+							<div className={s.mobileDivider}>
+								<div className={s.mobileMenuSpace}>
+									{!user ?
+										<button
+											onClick={() => {
+												navigate("/login");
+												setIsMobileMenuOpen(false);
+											}}
+											className={s.mobileLoginButton}>
+											<LogIn className='w-5 h-5' />
+											<span className='font-medium'>Login</span>
+										</button>
+									:	<>
+											<div className={s.mobileUserInfo}>
+												<div className={s.mobileAvatar}>
+													{getinitials(user.name)}
+												</div>
+												<div>
+													<div className={s.mobileUserName}>{user.name}</div>
+												</div>
+											</div>
 
-                                            <div className={s.mobileProfileGrid}>
-                                                <Link to='/viewprofile' className={s.profileButton} onClick={()=> setIsMobileMenuOpen(false)}>
-                                                    <User className="w-5 h-5" />
-                                                    <span className="font-medium">Profile</span>
-                                                </Link>
-                                                <button onClick={() => {
-                                                    handleLogout();
-													setIsMobileMenuOpen(false)
-                                                }} className={s.mobileProfileButton}>
-                                                    <LogOut className="w-5 h-5" />
+											<div className={s.mobileProfileGrid}>
+												<Link
+													to='/viewprofile'
+													className={s.profileButton}
+													onClick={() => setIsMobileMenuOpen(false)}>
+													<User className='w-5 h-5' />
+													<span className='font-medium'>Profile</span>
+												</Link>
+												<button
+													onClick={() => {
+														handleLogout();
+														setIsMobileMenuOpen(false);
+													}}
+													className={s.mobileProfileButton}>
+													<LogOut className='w-5 h-5' />
 													<span className='font-medium'>Logout</span>
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+												</button>
+											</div>
+										</>
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
-            <style>
-                {s.globalStyles}
-            </style>
+			<style>{s.globalStyles}</style>
 		</nav>
 	);
 };

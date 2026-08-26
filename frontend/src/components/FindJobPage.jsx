@@ -71,7 +71,6 @@ const FindJobPage = () => {
 	};
 
 	const filtersRef = useRef(null);
-
 	const [confirmToast, setConfirmToast] = useState({
 		open: false,
 		jobId: null,
@@ -79,7 +78,6 @@ const FindJobPage = () => {
 		company: "",
 	});
 	const confirmTimerRef = useRef(null);
-
 	const [toast, setToast] = useState({
 		show: false,
 		message: "",
@@ -367,7 +365,7 @@ const FindJobPage = () => {
 						Authorization: `Bearer ${token}`,
 					},
 				});
-				const data = await res.json();
+				const {data} = await res.json();
 				if (data.success) {
 					const jobIds = data.savedJobs.map((job) => String(job._id || job));
 					setSavedJobs(jobIds);
@@ -851,8 +849,7 @@ const FindJobPage = () => {
 														:	s.categoryCountInactive
 													}`}>
 													{
-														jobs.filter((job) => job.category === category)
-															.length
+														jobs.filter((job) => job.category === category).length
 													}
 												</span>
 											</button>

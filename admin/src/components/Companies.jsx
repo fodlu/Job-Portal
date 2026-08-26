@@ -13,7 +13,7 @@ import {
 
 const Companies = () => {
 	const [logoFile, setLogoFile] = useState(null);
-	const [logoPreview, setLogoPreview] = useState("");
+	const [logoPreview, setLogoPreview] = useState(null);
 	const [website, setWebsite] = useState("");
 	const [errors, setErrors] = useState({});
 	const [toast, setToast] = useState(null);
@@ -31,7 +31,6 @@ const Companies = () => {
 					headers: { Authorization: `Bearer ${token}` },
 				});
 
-				console.log(res.data)
 				setCompanies(res.data.companies);
 			} catch (error) {
 				console.error(error);
@@ -107,7 +106,6 @@ const Companies = () => {
 					},
 				},
 			);
-
 			setCompanies((prev) => [res.data.company, ...prev]);
 			setToast({
 				type: "success",

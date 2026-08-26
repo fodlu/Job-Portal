@@ -26,7 +26,6 @@ export const uploadToCloudinary = (fileBuffer, folderName, resourceType = "auto"
                     console.log("Cloudinary Upload Error: ", error);
                     return reject(error)
                 }
-                console.log("Cloudinary Upload Result: ", result);
                 resolve({
                     secure_url: result.secure_url,
                     public_id: result.public_id,

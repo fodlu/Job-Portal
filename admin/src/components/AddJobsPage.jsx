@@ -337,7 +337,7 @@ const handleSubmit = async (e) => {
     if(validateForm()) {
         try {
             setIsPosting(true);
-            const formDataToSend = new formData();
+            const formDataToSend = new FormData();
 
             formDataToSend.append("roleName", formData.roleName);
             formDataToSend.append("companyName", formData.companyName);
@@ -508,6 +508,13 @@ const handleSubmit = async (e) => {
                     <AnimatedField icon={Users} label ="Openings" name = "openings" value={formData.openings} onChange={(e)=> setFormData({...formData, openings: e.target.value || 1})} error={errors.openings} required />
 
                     <AnimatedField icon={FileText} label ="Overview" name = "overview" type='textarea' value={formData.overview} onChange={(e)=> setFormData({...formData, overview: e.target.value})} error={errors.overview} placeholder="Brief description of the role..." required />
+                </div>
+
+                {/* experience and location */}
+                <div className={s.grid2}>
+                    <AnimatedField icon={Users} label ="Experience" name = "experience" value={formData.experience} onChange={(e)=> setFormData({...formData, experience: e.target.value || 1})} error={errors.experience} required />
+
+                    <AnimatedField icon={FileText} label ="Location" name = "location" value={formData.location} onChange={(e)=> setFormData({...formData, location: e.target.value})} error={errors.overview} placeholder="Location..." required />
                 </div>
 
                 <div className={s.salaryContainer}>

@@ -29,4 +29,4 @@ const interviewQuestionSchema = new mongoose.Schema({
      }
 }, {timestamps: true})
 
-export default mongoose.model('interviewQuestion', interviewQuestionSchema);
+export default mongoose.model('InterviewQuestion', interviewQuestionSchema);

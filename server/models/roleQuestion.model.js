@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const roleQuestionSchema = new mongoose.Schema({
-    roleid: {
+    roleId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "InterviewRole",
         required: true
@@ -24,4 +24,4 @@ const roleQuestionSchema = new mongoose.Schema({
 
 }, {timestamps: true})
 
-export default mongoose.model("roleQuestion", roleQuestionSchema)
+export default mongoose.model("RoleQuestion", roleQuestionSchema)

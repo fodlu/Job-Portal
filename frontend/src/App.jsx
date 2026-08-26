@@ -90,7 +90,7 @@ const App = () => {
         <Route path='/roles/:roleSlug' element={<Roles />} />
         <Route path='/saved' element={<Saved />} />
 
-        <Route path='/jobsdetails/:id' element={<JobDetail />} />
+        <Route path='/jobdetails/:id' element={<JobDetail />} />
       </Routes>
 
       <ScrollToTopButton />

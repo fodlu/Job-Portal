@@ -11,12 +11,12 @@ interviewRouter.get('/roles/"id', getInterviewRole);
 
 interviewRouter.post('/role', authMiddleware, authorize("admin"), upload.fields([
     {name: "imageFile", maxCount: 1},
-    {name: "cvsFile", maxCount: 1}
+    {name: "csvFile", maxCount: 1}
 ]), addInterviewRole);
 
 interviewRouter.put('/role/:roleId', authMiddleware, authorize('admin'), upload.fields([
     {name: "imageFile", maxCount: 1},
-    {name: "cvsFile", maxCount: 1}
+    {name: "csvFile", maxCount: 1}
 ]), updateInterviewRole);
 
 interviewRouter.delete('/role/:roleId', authMiddleware, authorize('admin'), deleteInterviewQuestion);
@@ -24,14 +24,15 @@ interviewRouter.delete('/role/:roleId', authMiddleware, authorize('admin'), dele
 // company
 interviewRouter.get('/companies', getInterviewCompanies);
 interviewRouter.get('/company/:companyId', getInterviewQuestionsByCompany);
+
 interviewRouter.post('/', authMiddleware, authorize('admin'), upload.fields([
     {name: "logoFile", maxCount: 1},
-    {name: "cvsFile", maxCount: 1}
+    {name: "csvFile", maxCount: 1}
 ]), addInterviewCompany)
 
 interviewRouter.put('/:companyId', authMiddleware, authorize, upload.fields([
     {name: "imageFile", maxCount: 1},
-    {name: "cvsFile", maxCount: 1}
+    {name: "csvFile", maxCount: 1}
 ]), updateInterviewCompany)
 
 interviewRouter.delete('/:companyId', authMiddleware, authorize('admin'), deleteInterviewCompany)

@@ -10,7 +10,7 @@ import {
 	Trash2,
 	Upload,
 	User,
-	X,
+	X
 } from "lucide-react";
 
 // toast component
@@ -54,20 +54,23 @@ const ViewProfile = () => {
 	const [originalProfile, setOriginalProfile] = useState(null);
 	const [toast, setToast] = useState(null);
 	const [isSaving, setIsSaving] = useState(false);
+	const user = JSON.parse(localStorage.getItem("jobportal_user"));
+	const token = user.token
 
 	// to fetch user profile
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
-				const user = JSON.parse(localStorage.getItem("jobportal_user"));
 				const res = await fetch("http://localhost:5000/api/user/profile", {
+					method: 'GET',
 					headers: {
-						Authorization: `Bearer ${user.token}`,
+						Authorization: `Bearer ${token}`,
 					},
 				});
 
 				const data = await res.json();
-				console.log(data)
+
+				console.log('data: ', data)
 				setProfile({
 					name: data.user.name || "",
 					email: data.user.email || "",
@@ -79,7 +82,7 @@ const ViewProfile = () => {
 				console.error(error);
 			}
 		};
-		fetchProfile;
+		fetchProfile();
 	}, []);
 
 	const handleChange = (e) => {
@@ -100,7 +103,7 @@ const ViewProfile = () => {
 	};
 
 	const handleResumeUpload = (e) => {
-		const file = e.target.file[0];
+		const file = e.target.files[0];
 		if (!file) return;
 
 		setProfile((prev) => ({
@@ -150,11 +153,13 @@ const ViewProfile = () => {
 			const res = await fetch("http://localhost:5000/api/user/profile", {
 				method: "PUT",
 				headers: {
-					Authorization: `Bearer ${user.token}`,
+					Authorization: `Bearer ${token}`,
 				},
 				body: formData,
 			});
 			const data = await res.json();
+
+			console.log(data)
 			setProfile({
 				name: data.user.name,
 				email: data.user.email,
@@ -214,16 +219,14 @@ const ViewProfile = () => {
 				<div className={s.header}>
 					<h1 className={s.headerTitle}>My Profile</h1>
 
-					{isEditing ?
-						<button
-							onClick={() => setIsEditing(true)}
-							className={s.editButton}>
+					{!isEditing ?
+						<button onClick={() => setIsEditing(true)} className={s.editButton}>
 							<Edit3 className={s.editIcon} />
 							Edit Profile
 						</button>
 					:	<div className={s.actionButtons}>
 							<button className={s.cancelButton} onClick={handleCancel}>
-								<X className={s.cancelButton} />
+								<X className={s.cancelIcon} />
 								Cancel
 							</button>
 
@@ -310,8 +313,6 @@ const ViewProfile = () => {
 									required
 								/>
 							:	<p className={s.displayText}>{profile.email}</p>}
-
-							{console.log(profile)}
 						</div>
 
 						{/* phone field */}
@@ -394,7 +395,11 @@ const ViewProfile = () => {
 
 			{/* toast */}
 			{toast && (
-				<Toast message={toast.message} type={toast.type} onClose={()=> setToast(null)} />
+				<Toast
+					message={toast.message}
+					type={toast.type}
+					onClose={() => setToast(null)}
+				/>
 			)}
 
 			<style>{s.globalStyles}</style>

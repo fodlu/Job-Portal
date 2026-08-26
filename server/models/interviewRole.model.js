@@ -10,7 +10,7 @@ const interviewRoleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    questionCount: {
+    questionsCount: {
         type: String,
         required: true
     },
@@ -24,4 +24,6 @@ const interviewRoleSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
-export default mongoose.model("InterviewRole", interviewRoleSchema)
+const InterviewRole = mongoose.model("InterviewRole", interviewRoleSchema)
+
+export default InterviewRole

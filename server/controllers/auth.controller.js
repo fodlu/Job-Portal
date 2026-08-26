@@ -84,8 +84,6 @@ export const login = async (req, res) => {
 			});
 		}
 
-		console.log(user)
-
 		if(!user.isVerified) {
 			return res.status(400).json({
 				success: false,

@@ -1,6 +1,14 @@
 import React, { useRef, useState } from "react";
 import { contactPageStyles as s } from "../assets/dummyStyles";
-import { Briefcase, CircleArrowRight, Mail, MapPin, MessagesSquare, Phone, User } from "lucide-react";
+import {
+	Briefcase,
+	CircleArrowRight,
+	Mail,
+	MapPin,
+	MessagesSquare,
+	Phone,
+	User,
+} from "lucide-react";
 
 const ContactPage = () => {
 	const [formData, setFormData] = useState({
@@ -91,7 +99,7 @@ const ContactPage = () => {
 		const { name, value } = e.target;
 		if (name === "phone") {
 			const digitsOnly = value.replace(/\D/g, "");
-			setFormData((prev) => ({ ...prev, phone: digitsOnly.slice(0, 10) }));
+			setFormData((prev) => ({ ...prev, [name]: digitsOnly.slice(0, 10) }));
 		} else {
 			setFormData((prev) => ({ ...prev, [name]: value }));
 		}
@@ -119,6 +127,7 @@ const ContactPage = () => {
 			});
 
 			const data = await res.json();
+
 			if (data.success) {
 				setToast({
 					message: "We will get back to you shortly",
@@ -224,90 +233,137 @@ const ContactPage = () => {
 									</div>
 								</div>
 
-                                <div className={s.rightPanel}>
-                                    <h2 className={s.rightPanelTitle}>
-                                        <Briefcase className={s.briefcaseIcon} />
-                                        Send Your Inquiry
-                                    </h2>
+								<div className={s.rightPanel}>
+									<h2 className={s.rightPanelTitle}>
+										<Briefcase className={s.briefcaseIcon} />
+										Send Your Inquiry
+									</h2>
 
-                                    <form ref={formRef} onSubmit={handleSubmit} className={s.form}>
-                                        <div className={s.formGrid}>
-                                            <div className={s.fieldGroup}>
-                                                <label className={s.fieldLabel}>Full Name</label>
-                                                <div className={s.inputWrapper}>
-                                                    <div className={s.inputGlow}></div>
-                                                    <div className={s.inputContainer}>
-                                                        <User className={s.userIcon} />
-                                                        <input type="text" name="fullname" value={formData.fullName} onChange={handleChange} required placeholder="Alex Johnson" className={s.inputField} />
-                                                    </div>
-                                                </div>
-                                            </div>
+									<form
+										ref={formRef}
+										onSubmit={handleSubmit}
+										className={s.form}>
+										<div className={s.formGrid}>
+											<div className={s.fieldGroup}>
+												<label className={s.fieldLabel}>Full Name</label>
+												<div className={s.inputWrapper}>
+													<div className={s.inputGlow}></div>
+													<div className={s.inputContainer}>
+														<User className={s.userIcon} />
+														<input
+															type='text'
+															name='fullName'
+															value={formData.fullName}
+															onChange={handleChange}
+															required
+															placeholder='Alex Johnson'
+															className={s.inputField}
+														/>
+													</div>
+												</div>
+											</div>
 
-                                            <div className={s.fieldGroup}>
-                                                <label className={s.fieldLabel}>Email</label>
-                                                <div className={s.inputWrapper}>
-                                                    <div className={s.inputGlow}></div>
-                                                    <div className={s.inputContainer}>
-                                                        <Mail className={s.userIcon} />
-                                                        <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="alex@example.com" className={s.inputField} />
-                                                    </div>
-                                                </div>
-                                            </div>
+											<div className={s.fieldGroup}>
+												<label className={s.fieldLabel}>Email</label>
+												<div className={s.inputWrapper}>
+													<div className={s.inputGlow}></div>
+													<div className={s.inputContainer}>
+														<Mail className={s.userIcon} />
+														<input
+															type='email'
+															name='email'
+															value={formData.email}
+															onChange={handleChange}
+															required
+															placeholder='alex@example.com'
+															className={s.inputField}
+														/>
+													</div>
+												</div>
+											</div>
 
-                                            <div className={s.fieldGroup}>
-                                                <label className={s.fieldLabel}>Phone</label>
-                                                <div className={s.inputWrapper}>
-                                                    <div className={s.inputGlow}></div>
-                                                    <div className={s.inputContainer}>
-                                                        <Phone className={s.userIcon} />
-                                                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="1234567890" maxLength={10} inputMode="numeric" pattern="\d{10}" className={s.inputField} />
-                                                    </div>
-                                                </div>
-                                            </div>
+											<div className={s.fieldGroup}>
+												<label className={s.fieldLabel}>Phone</label>
+												<div className={s.inputWrapper}>
+													<div className={s.inputGlow}></div>
+													<div className={s.inputContainer}>
+														<Phone className={s.userIcon} />
+														<input
+															type='tel'
+															name='phone'
+															value={formData.phone}
+															onChange={handleChange}
+															required
+															placeholder='1234567890'
+															maxLength={10}
+															inputMode='numeric'
+															pattern='\d{10}'
+															className={s.inputField}
+														/>
+													</div>
+												</div>
+											</div>
 
-                                            <div className={s.fieldGroup}>
-                                                <label className={s.fieldLabel}>Subject</label>
-                                                <div className={s.inputWrapper}>
-                                                    <div className={s.inputGlow}></div>
-                                                    <div className={s.inputContainer}>
-                                                        <Briefcase className={s.userIcon} />
-                                                        <input type="text" name="subject" value={formData.subject} onChange={handleChange} required placeholder="job inquiry... | partnership..." className={s.inputField} />
-                                                    </div>
-                                                </div>
-                                            </div>
+											<div className={s.fieldGroup}>
+												<label className={s.fieldLabel}>Subject</label>
+												<div className={s.inputWrapper}>
+													<div className={s.inputGlow}></div>
+													<div className={s.inputContainer}>
+														<Briefcase className={s.userIcon} />
+														<input
+															type='text'
+															name='subject'
+															value={formData.subject}
+															onChange={handleChange}
+															required
+															placeholder='job inquiry... | partnership...'
+															className={s.inputField}
+														/>
+													</div>
+												</div>
+											</div>
 
-                                            <div className={s.fieldGroup}>
-                                                <label className={s.fieldLabel}>Message</label>
-                                                <div className={s.inputWrapper}>
-                                                    <div className={s.inputGlow}></div>
-                                                    <div className={s.inputContainer}>
-                                                        <MessagesSquare className={s.messageIcon} />
-                                                        <textarea name="message" rows={5} value={formData.message} onChange={handleChange} placeholder="Tell us about your career" className={s.textareaField}></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
+											<div className={s.fieldGroup}>
+												<label className={s.fieldLabel}>Message</label>
+												<div className={s.inputWrapper}>
+													<div className={s.inputGlow}></div>
+													<div className={s.inputContainer}>
+														<MessagesSquare className={s.messageIcon} />
+														<textarea
+															name='message'
+															rows={5}
+															value={formData.message}
+															onChange={handleChange}
+															placeholder='Tell us about your career'
+															className={s.textareaField}></textarea>
+													</div>
+												</div>
+											</div>
 
-                                            {/* submit button */}
-                                            <div className={s.submitButtonContainer}>
-                                                <button type="submit" disabled={loading} className={`${s.submitButton} ${
-                                                    loading ? s.submitButtonDisabled : ""
-                                                }`}>
-                                                    <span className={s.submitButtonContent}>
-                                                        <CircleArrowRight className={s.sendIcon} />
-                                                        {loading ? "Sending..." : "Send Message"}
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+											{/* submit button */}
+											<div className={s.submitButtonContainer}>
+												<button
+													type='submit'
+													disabled={loading}
+													className={`${s.submitButton} ${
+														loading ? s.submitButtonDisabled : ""
+													}`}>
+													<span className={s.submitButtonContent}>
+														<CircleArrowRight className={s.sendIcon} />
+														{loading ? "Sending..." : "Send Message"}
+													</span>
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-            <style>{s.globalStyles}</style>
+			<style>{s.globalStyles}</style>
 		</div>
 	);
 };

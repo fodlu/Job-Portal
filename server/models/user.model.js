@@ -31,15 +31,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    savedJobs: {
+    savedJobs: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job'
-    },
+    }],
     savedInterviewQuestions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'InterviewQuestion'
     }],
-    savedRoleQuestion: [{
+    savedRoleQuestions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RoleQuestion'
     }],

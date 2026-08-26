@@ -77,12 +77,13 @@ const CompanyPage = () => {
 				const token = rawUser ? JSON.parse(rawUser).token : null;
 				if (!token) return;
 
-				const res = await fetch("http://localhost:5000//api/saved", {
-					header: {
+				const res = await fetch("http://localhost:5000/api/saved", {
+					headers: {
 						Authorization: `Bearer ${token}`,
 					},
 				});
 				const data = await res.json();
+
 				if (data.success) {
 					const qIds = [
 						...data.savedInterviewQuestions.map((q) => `company: ${q._id}`),

@@ -338,6 +338,8 @@ const ListRoleQuestion = () => {
         },
       );
 
+      console.log(response)
+
       if (response.data.success) {
         setRoles((prev) =>
           prev.map((role) => (role._id === id ? response.data.role : role)),

@@ -12,12 +12,12 @@ export const getProfile = async (req, res) => {
 			});
 		}
 
-		res.status(200).json({
+		return res.status(200).json({
 			success: true,
 			user,
 		});
 	} catch (error) {
-		res.status(500).json({
+		return res.status(500).json({
 			success: false,
 			message: error.message,
 		});
@@ -33,6 +33,7 @@ export const updateProfile = async (req, res) => {
 		if (name) updateData.name = name;
 		if (email) updateData.email = email;
 		if (phone) updateData.phone = phone;
+
 
 		// to upload resume for job seeker
 		if (req.file && req.user.role === "user") {
@@ -62,14 +63,13 @@ export const updateProfile = async (req, res) => {
 			}
 		}
 
-		await userModel
-			.findByIdAndUpdate(req.user._id, updateData, { returnDocument: "after" })
+		const user = await userModel.findByIdAndUpdate(req.user.id, updateData, { returnDocument: "after" })
 			.select("-password");
 
 		return res.status(200).json({
 			success: true,
 			message: "Profile updated successfully!",
-			user,
+			user
 		});
 	} catch (error) {
 		res.status(500).json({
