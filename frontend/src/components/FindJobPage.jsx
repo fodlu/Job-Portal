@@ -23,6 +23,8 @@ const STORAGE_JOBS_KEY = "savedJobs";
 const STORAGE_APPLIED_KEY = "appliedJobs";
 const STORAGE_USER_KEY = "jobportal_user";
 
+const api = import.meta.env.VITE_BASEURL;
+
 const FindJobPage = () => {
 	const [searchTerm, setSearchTerm] = useState({
 		company: "",
@@ -148,7 +150,7 @@ const FindJobPage = () => {
 				return;
 			}
 
-			const res = await fetch(`http://localhost:5000/api/saved/job/${jobId}`, {
+			const res = await fetch(`${api}/api/saved/job/${jobId}`, {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -223,7 +225,7 @@ const FindJobPage = () => {
 				return;
 			}
 
-			const res = await fetch("http://localhost:5000/api/user/profile", {
+			const res = await fetch(`${api}/api/user/profile`, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			const data = await res.json();
@@ -288,7 +290,7 @@ const FindJobPage = () => {
 			}
 
 			const res = await fetch(
-				`http://localhost:5000/api/application/apply/${confirmToast.jobId}`,
+				`${api}/api/application/apply/${confirmToast.jobId}`,
 				{
 					method: "POST",
 					headers: {
@@ -335,7 +337,7 @@ const FindJobPage = () => {
 				const token = rawUser ? JSON.parse(rawUser).token : null;
 				if (!token) return;
 
-				const res = await fetch("http://localhost:5000/api/application/user", {
+				const res = await fetch(`${api}/api/application/user`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -360,7 +362,7 @@ const FindJobPage = () => {
 				const token = rawUser ? JSON.parse(rawUser).token : null;
 				if (!token) return;
 
-				const res = await fetch("http://localhost:5000/api/saved", {
+				const res = await fetch(`${api}/api/saved`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -416,7 +418,7 @@ const FindJobPage = () => {
 			if (filters.maxSalary) params.append("maxSalary", filters.maxSalary);
 
 			const res = await fetch(
-				`http://localhost:5000/api/job?${params.toString()}`,
+				`${api}/api/job?${params.toString()}`,
 			);
 			const data = await res.json();
 
@@ -431,7 +433,7 @@ const FindJobPage = () => {
 								job.companyLogo.startsWith("/") ?
 									job.companyLogo
 								:	`/${job.companyLogo}`;
-							logoSrc = `http://localhost:5000${path
+							logoSrc = `${api}${path
 								.split("/")
 								.map((segment) => encodeURIComponent(segment))
 								.join("/")}`;
@@ -619,7 +621,7 @@ const FindJobPage = () => {
 	const renderLogo = (job) => {
 		const logoUrl = job.logo;
 		const isBroken =
-			imgErrors[job.id] || !logoUrl || logoUrl === "http://localhost:5000";
+			imgErrors[job.id] || !logoUrl || logoUrl === `${api}`;
 
 		const initials = job.company?.charAt(0) || "?";
 		const colors = [

@@ -10,6 +10,8 @@ import {
 	User,
 } from "lucide-react";
 
+const api = import.meta.env.VITE_BASEURL;
+
 const ContactPage = () => {
 	const [formData, setFormData] = useState({
 		fullName: "",
@@ -118,7 +120,7 @@ const ContactPage = () => {
 		setLoading(true);
 
 		try {
-			const res = await fetch("http://localhost:5000/api/inquiry", {
+			const res = await fetch(`${api}/api/inquiry`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

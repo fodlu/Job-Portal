@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { careerPageStyles as s } from "../assets/dummyStyles";
 import axios from "axios";
 
+const api = import.meta.env.VITE_BASEURL;
+
 const Career = () => {
 	const [companies, setCompanies] = useState([]);
 
@@ -9,7 +11,7 @@ const Career = () => {
 	useEffect(() => {
 		const fetchCompanies = async () => {
 			try {
-				const res = await axios.get("http://localhost:5000/api/company");
+				const res = await axios.get(`${api}/api/company`);
 				setCompanies(res.data.companies || []);
 			} catch (error) {
 				console.log("Error fetching companies: ", error);

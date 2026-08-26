@@ -12,6 +12,7 @@ const slugify = (str) =>
 		.replace(/[^\w-]+/g, "")
 		.replace(/--+/g, "-");
 
+const api = import.meta.env.VITE_BASEURL;
 const InterviewQuestion = () => {
 	const [companies, setCompanies] = useState([]);
 	const [roles, setRoles] = useState([]);
@@ -22,8 +23,8 @@ const InterviewQuestion = () => {
 			setLoading(true);
 			try {
 				const [companiesRes, rolesRes] = await Promise.all([
-					fetch("http://localhost:5000/api/interview/companies"),
-					fetch("http://localhost:5000/api/interview/roles"),
+					fetch(`${api}/api/interview/companies`),
+					fetch(`${api}/api/interview/roles`),
 				]);
 
 				const companiesData = await companiesRes.json();

@@ -10,7 +10,7 @@ dns.setServers(["8.8.8.8", "8.8.4.4"]);
 import express from 'express';
 import cors from 'cors'
 import "dotenv/config"
-import { connectDb } from './config/db.js';
+import { connectDB } from './config/db.js';
 import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
 import companyRouter from './routes/company.route.js';
@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // DB
-connectDb()
+connectDB()
 
 // MIDDLEWARES
 app.use(express.json())

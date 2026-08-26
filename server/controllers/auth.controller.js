@@ -75,7 +75,7 @@ export const login = async (req, res) => {
 			});
 		}
 
-		const user = await userModel.findOne({email})
+		const user = await userModel.findOne({ email });
 
 		if (!user) {
 			return res.status(400).json({
@@ -84,7 +84,7 @@ export const login = async (req, res) => {
 			});
 		}
 
-		if(!user.isVerified) {
+		if (!user.isVerified) {
 			return res.status(400).json({
 				success: false,
 				message: "Please verify your email before logging in.",

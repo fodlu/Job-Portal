@@ -18,6 +18,8 @@ import { jobDetailPageStyles as s } from "../assets/dummyStyles";
 const STORAGE_USER_KEY = "jobportal_user";
 const STORAGE_JOBS_KEY = "savedJobs";
 
+const api = import.meta.env.VITE_BASEURL;
+
 const JobDetailPage = () => {
 	const { id } = useParams(); // by this it will filter to which job to show details
 	const [job, setJob] = useState(null);
@@ -36,7 +38,7 @@ const JobDetailPage = () => {
 		const fetchJob = async () => {
 			setLoading(true);
 			try {
-				const res = await fetch(`http://localhost:5000/api/job/${id}`);
+				const res = await fetch(`${api}/api/job/${id}`);
 				const data = await res.json();
 				if (data.success) {
 					const bJob = data.job;
@@ -54,7 +56,7 @@ const JobDetailPage = () => {
 						logo:
 							bJob.companyLogo?.startsWith("http") ?
 								bJob.companyLogo
-							:	`http://localhost:5000${bJob.companyLogo || ""}`,
+							:	`${api}${bJob.companyLogo || ""}`,
 						datePosted: bJob.postDate || bJob.createdAt,
 						overview: bJob.overview,
 						responsibilities: bJob.responsibilities,
@@ -204,7 +206,7 @@ const JobDetailPage = () => {
 				const token = rawUser ? JSON.parse(rawUser).token : null;
 				if (!token) return;
 
-				const res = await fetch("http://localhost:5000/api/application/user", {
+				const res = await fetch(`${api}/api/application/user`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -268,7 +270,7 @@ const JobDetailPage = () => {
 				return;
 			}
 
-			const res = await fetch("http://localhost:5000/api/user/profile", {
+			const res = await fetch(`${api}/api/user/profile`, {
 				headers: { Authorization: `Bearer ${token}` },
 			});
 			const data = await res.json();
@@ -324,7 +326,7 @@ const JobDetailPage = () => {
 			}
 
 			const res = await fetch(
-				`http://localhost:5000/api/application/apply/${confirmToast.jobId}`,
+				`${api}/api/application/apply/${confirmToast.jobId}`,
 				{
 					method: "POST",
 					headers: {

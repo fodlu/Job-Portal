@@ -1,11 +1,18 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-export const connectDb = async(req, res) => {
-    await mongoose.connect("mongodb+srv://musediqopeyemi_db_user:1234@cluster0.0nnqdns.mongodb.net/Job", {
-  family: 4 // Forces Node.js to use IPv4 instead of IPv6 for DNS lookup
-})
-    .then(()=> console.log("DB CONNECTED"))
-}
+export const connectDB = async () => {
+	try {
+		mongoose.connection.on("connected", () =>
+			console.log("Database connected"),
+		);
+		await mongoose.connect(
+			"mongodb+srv://musediqopeyemi_db_user:mAsM49HTGtVwPMkp@cluster0.p1e95zl.mongodb.net/jobPortal",
+		);
+	} catch (error) {
+		console.log(error.message);
+	}
+};
+
 // export const connectDb = async(req, res) => {
 //     try {
 //       await mongoose.connect("mongodb://localhost:27017/jobPortal")

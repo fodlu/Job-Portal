@@ -12,6 +12,7 @@ import {
 	User,
 	X
 } from "lucide-react";
+import API from "../../utils/api";
 
 // toast component
 const Toast = ({ message, type = "success", onClose }) => {
@@ -61,7 +62,7 @@ const ViewProfile = () => {
 	useEffect(() => {
 		const fetchProfile = async () => {
 			try {
-				const res = await fetch("http://localhost:5000/api/user/profile", {
+				const res = await fetch(`${API}/user/profile`, {
 					method: 'GET',
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -150,7 +151,7 @@ const ViewProfile = () => {
 			if (profile.resume instanceof File) {
 				formData.append("resume", profile.resume);
 			}
-			const res = await fetch("http://localhost:5000/api/user/profile", {
+			const res = await fetch(`${API}/user/profile`, {
 				method: "PUT",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -201,7 +202,7 @@ const ViewProfile = () => {
 			const url = URL.createObjectURL(profile.resume);
 			window.open(url, "_blank");
 		} else if (typeof profile.resume === "string") {
-			const fullUrl = `http://localhost:5000/api/user/resume/${originalProfile._id}`;
+			const fullUrl = `${API}/user/resume/${originalProfile._id}`;
 
 			const link = document.createElement("a");
 			link.href = fullUrl;

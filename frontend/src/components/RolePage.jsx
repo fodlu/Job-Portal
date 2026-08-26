@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   Briefcase,
@@ -6,12 +6,11 @@ import {
   CheckCircle2,
   Bookmark,
   ChevronRight,
-  Award,
   Dot,
-  X,
 } from "lucide-react";
 import Toast from "./Toast";
 import { rolePageStyles as s } from "../assets/dummyStyles";
+import API from "../../utils/api";
 
 const STORAGE_KEY = "savedQuestionIds";
 
@@ -108,7 +107,7 @@ const RolePage = () => {
       setLoadingQuestions(true);
       try {
         const res = await fetch(
-          `http://localhost:5000/api/interview/role/${selectedRoleId}`,
+          `${API}/interview/role/${selectedRoleId}`,
         );
         const data = await res.json();
         if (data.success) {
