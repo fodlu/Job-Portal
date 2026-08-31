@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY.trim();
-const SENDER_EMAIL = process.env.EMAIL_USER;
+const SENDER_EMAIL = process.env.EMAIL_USER.trim();
 
 // reusable email sender function
 const sendEmail = async({to, subject, htmlContent}) => {

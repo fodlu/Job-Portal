@@ -6,7 +6,7 @@ export const connectDB = async () => {
 			console.log("Database connected"),
 		);
 		await mongoose.connect(
-			"mongodb+srv://musediqopeyemi_db_user:mAsM49HTGtVwPMkp@cluster0.p1e95zl.mongodb.net/jobPortal",
+			process.env.MONGODB_URI
 		);
 	} catch (error) {
 		console.log(error.message);

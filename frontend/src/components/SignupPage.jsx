@@ -92,7 +92,6 @@ const SignupPage = () => {
 			return false;
 		}
 		if (formData.password.length < 6) {
-      console.log(formData.password.length)
 			setToast({
 				message: "Password must be at least 6 characters",
 				type: "error",
@@ -110,7 +109,6 @@ const SignupPage = () => {
 		try {
 			setIsLoading(true);
 			const res = await API.post("/auth/register", formData);
-			console.log(res)
 			setToast({ message: res.data.message, type: "success" });
 			setIsVerifying(true);
 		} catch (error) {
